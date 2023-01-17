@@ -226,7 +226,7 @@ def _E8_AE_BE_E7_BD_AE():
             oled.DispChar(str('你已是最新版本'), 11, 26, 1)
             oled.show()
         else:
-            oled.DispChar(str('按A键开始更新'), 11, 26, 1)
+            oled.DispChar(str('按A键开始更新'), 11, 30, 1)
             oled.show()
             if button_a.is_pressed():
                 _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/System', headers={})

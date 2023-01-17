@@ -206,15 +206,6 @@ def _E8_AF_AD_E9_9F_B3_E8_AF_86_E5_88_AB():
 
 import json
 
-def init_text_file(_path):
-    f = open(_path, 'w')
-    f.close()
-
-def write_data_to_file(_path, _data, _sep):
-    f = open(_path, 'a')
-    f.write(_data + _sep)
-    f.close()
-
 def _E8_AE_BE_E7_BD_AE():
     global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
     while not button_b.is_pressed():
@@ -229,9 +220,7 @@ def _E8_AE_BE_E7_BD_AE():
             oled.DispChar(str('按A键开始更新'), 11, 26, 1)
             oled.show()
             if button_a.is_pressed():
-                _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/System', headers={})
-                init_text_file("mai'n.py")
-                write_data_to_file('main.py', _response.text, '\r\n')
+                update()
         oled.show()
 
 def clock():
@@ -274,6 +263,33 @@ def clock():
         oled.DispChar(str(str('闹钟:') + str((str(str('时') + str(str(H) + str('/'))) + str(str('分') + str(M))))), 15, 11, 1)
         oled.show()
 
+def init_text_file(_path):
+    f = open(_path, 'w')
+    f.close()
+
+def write_data_to_file(_path, _data, _sep):
+    f = open(_path, 'a')
+    f.write(_data + _sep)
+    f.close()
+
+import machine
+
+def update():
+    global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
+    rgb.fill((int(255), int(255), int(255)))
+    rgb.write()
+    time.sleep_ms(1)
+    _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/System', headers={})
+    rgb.fill((int(255), int(255), int(255)))
+    rgb.write()
+    time.sleep_ms(1)
+    init_text_file('main.py')
+    write_data_to_file('main.py', _response.text, '\r\n')
+    rgb.fill((int(255), int(255), int(255)))
+    rgb.write()
+    time.sleep_ms(1)
+    machine.reset()
+
 UDP = None
 
 def _E5_88_A4_E6_96_AD_E4_B8_BB_E7_95_8C_E9_9D_A2():
@@ -284,8 +300,6 @@ def _E5_88_A4_E6_96_AD_E4_B8_BB_E7_95_8C_E9_9D_A2():
             my_1()
         elif list == 1:
             my_2()
-
-import machine
 
 def _E5_BC_80_E5_A7_8B():
     global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo

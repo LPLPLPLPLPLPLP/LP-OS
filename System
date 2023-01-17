@@ -136,7 +136,7 @@ my_rgb = neopixel.NeoPixel(Pin(Pin.P13), n=24, bpp=3, timing=1)
 
 list = None
 
-ver = None
+ver = 3.0
 
 xuanquruanjian2 = None
 

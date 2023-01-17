@@ -206,6 +206,15 @@ def _E8_AF_AD_E9_9F_B3_E8_AF_86_E5_88_AB():
 
 import json
 
+def init_text_file(_path):
+    f = open(_path, 'w')
+    f.close()
+
+def write_data_to_file(_path, _data, _sep):
+    f = open(_path, 'a')
+    f.write(_data + _sep)
+    f.close()
+
 def _E8_AE_BE_E7_BD_AE():
     global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
     while not button_b.is_pressed():
@@ -213,14 +222,16 @@ def _E8_AE_BE_E7_BD_AE():
         oled.fill_rect(10, 10, 100, 50, 0)
         oled.RoundRect(10, 10, 100, 50, 10, 1)
         oled.DispChar(str(str('最新版本:') + str(_response.text)), 11, 15, 1)
-        if _response.text == '3.0':
+        if ver == _response.text:
             oled.DispChar(str('你已是最新版本'), 11, 26, 1)
             oled.show()
         else:
             oled.DispChar(str('按A键开始更新'), 11, 26, 1)
             oled.show()
             if button_a.is_pressed():
-                update()
+                _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/System', headers={})
+                init_text_file("mai'n.py")
+                write_data_to_file('main.py', _response.text, '\r\n')
         oled.show()
 
 def clock():
@@ -263,24 +274,6 @@ def clock():
         oled.DispChar(str(str('闹钟:') + str((str(str('时') + str(str(H) + str('/'))) + str(str('分') + str(M))))), 15, 11, 1)
         oled.show()
 
-def init_text_file(_path):
-    f = open(_path, 'w')
-    f.close()
-
-def write_data_to_file(_path, _data, _sep):
-    f = open(_path, 'a')
-    f.write(_data + _sep)
-    f.close()
-
-import machine
-
-def update():
-    global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
-    _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/System', headers={})
-    init_text_file('main.py')
-    write_data_to_file('main.py', _response.text, '\r\n')
-    machine.reset()
-
 UDP = None
 
 def _E5_88_A4_E6_96_AD_E4_B8_BB_E7_95_8C_E9_9D_A2():
@@ -291,6 +284,8 @@ def _E5_88_A4_E6_96_AD_E4_B8_BB_E7_95_8C_E9_9D_A2():
             my_1()
         elif list == 1:
             my_2()
+
+import machine
 
 def _E5_BC_80_E5_A7_8B():
     global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
@@ -328,15 +323,15 @@ def my_1():
         oled.vline(40, 48, 30, 1)
         oled.vline(60, 48, 30, 1)
         oled.show()
-        if touchpad_p.is_pressed():
+        if touchpad_t.is_pressed() or touchpad_h.is_pressed():
             _E5_BC_80_E5_A7_8B()
         if xuenquruanjian < 0:
             xuenquruanjian = 4
         elif xuenquruanjian > 4:
             xuenquruanjian = 0
-        if accelerometer.get_y() > 0.3:
+        if touchpad_p.is_pressed():
             xuenquruanjian = xuenquruanjian + -1
-        elif accelerometer.get_y() < -0.3:
+        elif touchpad_n.is_pressed():
             xuenquruanjian = xuenquruanjian + 1
         if button_a.is_pressed():
             if xuenquruanjian == 0:
@@ -366,9 +361,9 @@ def my_1():
             oled.show()
         if time.localtime()[3] == H and time.localtime()[4] == M and my_wifi.sta.isconnected():
             music.play(music.DONG_FANG_HONG, wait=False, loop=False)
-        if accelerometer.get_x() < -0.3:
+        if touchpad_y.is_pressed():
             list = list + -1
-        elif accelerometer.get_x() > 0.3:
+        elif touchpad_o.is_pressed():
             list = list + 1
 
 def my_2():
@@ -389,15 +384,15 @@ def my_2():
                 pass
             elif xuanquruanjian2 == 1:
                 pass
-        if touchpad_p.is_pressed():
+        if touchpad_t.is_pressed() or touchpad_h.is_pressed():
             _E5_BC_80_E5_A7_8B()
         if xuanquruanjian2 < 0:
             xuanquruanjian2 = 1
         elif xuanquruanjian2 > 1:
             xuanquruanjian2 = 0
-        if accelerometer.get_y() > 0.3:
+        if touchpad_p.is_pressed():
             xuanquruanjian2 = xuanquruanjian2 + -1
-        elif accelerometer.get_y() < -0.3:
+        elif touchpad_n.is_pressed():
             xuanquruanjian2 = xuanquruanjian2 + 1
         if my_wifi.sta.isconnected() and time.localtime()[3] == H and time.localtime()[4] == M:
             music.play(music.DONG_FANG_HONG, wait=False, loop=False)
@@ -407,9 +402,9 @@ def my_2():
         elif xuanquruanjian2 == 1:
             oled.fill_rect(70, 2, 30, 15, 1)
             oled.show()
-        if accelerometer.get_x() < -0.3:
+        if touchpad_y.is_pressed():
             list = list + -1
-        elif accelerometer.get_x() > 0.3:
+        elif touchpad_o.is_pressed():
             list = list + 1
 ntptime.settime(8, "time.windows.com")
 list = 0

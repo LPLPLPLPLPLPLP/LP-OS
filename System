@@ -2,6 +2,8 @@ from mpython import *
 
 SET = None
 
+wifi().connectWiFi("SSID", "PASSWORD")
+
 p0 = MPythonPin(0, PinMode.OUT)
 
 p1 = MPythonPin(1, PinMode.OUT)
@@ -126,9 +128,6 @@ def WLAN():
 
 import network
 
-my_wifi = wifi()
-
-my_wifi.connectWiFi("HiTV_1105", "18925081078")
 
 import ntptime
 

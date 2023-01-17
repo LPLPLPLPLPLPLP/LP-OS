@@ -136,7 +136,7 @@ my_rgb = neopixel.NeoPixel(Pin(Pin.P13), n=24, bpp=3, timing=1)
 
 list = None
 
-ver = 3.0
+ver = None
 
 xuanquruanjian2 = None
 
@@ -167,7 +167,7 @@ shibiejieguo = None
 import time
 
 def on_button_b_pressed(_):
-    global ver, shibiejieguo, kaishicaidanxuanquruanjian, xuenquruanjian, jibu, USER, set3, word, C, SET, set2, WENBEN, A, xuanquruanjian2, H, list, M, UDP
+    global shibiejieguo, kaishicaidanxuanquruanjian, xuenquruanjian, jibu, USER, set3, word, C, SET, set2, WENBEN, xuanquruanjian2, A, ver, H, list, M, UDP
     _E5_88_A4_E6_96_AD_E4_B8_BB_E7_95_8C_E9_9D_A2()
 
 button_b.event_pressed = on_button_b_pressed
@@ -206,15 +206,6 @@ def _E8_AF_AD_E9_9F_B3_E8_AF_86_E5_88_AB():
 
 import json
 
-def init_text_file(_path):
-    f = open(_path, 'w')
-    f.close()
-
-def write_data_to_file(_path, _data, _sep):
-    f = open(_path, 'a')
-    f.write(_data + _sep)
-    f.close()
-
 def _E8_AE_BE_E7_BD_AE():
     global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
     while not button_b.is_pressed():
@@ -222,16 +213,14 @@ def _E8_AE_BE_E7_BD_AE():
         oled.fill_rect(10, 10, 100, 50, 0)
         oled.RoundRect(10, 10, 100, 50, 10, 1)
         oled.DispChar(str(str('最新版本:') + str(_response.text)), 11, 15, 1)
-        if _response.text == 3.0:
+        if _response.text == '3.0':
             oled.DispChar(str('你已是最新版本'), 11, 26, 1)
             oled.show()
         else:
-            oled.DispChar(str('按A键开始更新'), 11, 30, 1)
+            oled.DispChar(str('按A键开始更新'), 11, 26, 1)
             oled.show()
             if button_a.is_pressed():
-                _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/System', headers={})
-                init_text_file("main.py")
-                write_data_to_file('main.py', _response.text, '\r\n')
+                update()
         oled.show()
 
 def clock():
@@ -274,6 +263,24 @@ def clock():
         oled.DispChar(str(str('闹钟:') + str((str(str('时') + str(str(H) + str('/'))) + str(str('分') + str(M))))), 15, 11, 1)
         oled.show()
 
+def init_text_file(_path):
+    f = open(_path, 'w')
+    f.close()
+
+def write_data_to_file(_path, _data, _sep):
+    f = open(_path, 'a')
+    f.write(_data + _sep)
+    f.close()
+
+import machine
+
+def update():
+    global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
+    _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/System', headers={})
+    init_text_file('main.py')
+    write_data_to_file('main.py', _response.text, '\r\n')
+    machine.reset()
+
 UDP = None
 
 def _E5_88_A4_E6_96_AD_E4_B8_BB_E7_95_8C_E9_9D_A2():
@@ -284,8 +291,6 @@ def _E5_88_A4_E6_96_AD_E4_B8_BB_E7_95_8C_E9_9D_A2():
             my_1()
         elif list == 1:
             my_2()
-
-import machine
 
 def _E5_BC_80_E5_A7_8B():
     global UDP, M, list, H, ver, A, xuanquruanjian2, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo

@@ -230,7 +230,7 @@ def _E8_AE_BE_E7_BD_AE():
             oled.show()
             if button_a.is_pressed():
                 _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/System', headers={})
-                init_text_file("mai'n.py")
+                init_text_file("main.py")
                 write_data_to_file('main.py', _response.text, '\r\n')
         oled.show()
 

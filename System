@@ -295,8 +295,7 @@ def _E5_BC_80_E5_A7_8B():
         oled.vline(40, 48, 30, 1)
         oled.vline(60, 48, 30, 1)
         oled.DispChar(str('即将重启'), 35, 4, 1)
-        oled.DispChar(str('A/是'), 35, 20, 1)
-        oled.DispChar(str('B/否'), 35, 35, 1)
+        oled.DispChar(str('A/是 B/否'), 35, 20, 1)
         oled.hline(0, 48, 150, 1)
         oled.show()
         if button_a.is_pressed():

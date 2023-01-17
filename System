@@ -222,7 +222,7 @@ def _E8_AE_BE_E7_BD_AE():
         oled.fill_rect(10, 10, 100, 50, 0)
         oled.RoundRect(10, 10, 100, 50, 10, 1)
         oled.DispChar(str(str('最新版本:') + str(_response.text)), 11, 15, 1)
-        if ver == _response.text:
+        if _response.text == 3.0:
             oled.DispChar(str('你已是最新版本'), 11, 26, 1)
             oled.show()
         else:

@@ -132,7 +132,7 @@ my_wifi = wifi()
 my_wifi.connectWiFi("HiTV_1105", "18925081078")
 
 import ntptime
-
+version = 3.0
 my_rgb = neopixel.NeoPixel(Pin(Pin.P13), n=24, bpp=3, timing=1)
 
 list = None
@@ -209,14 +209,6 @@ def _E8_AE_BE_E7_BD_AE():
         oled.fill_rect(10, 10, 100, 50, 0)
         oled.RoundRect(10, 10, 100, 50, 10, 1)
         oled.show()
-        if button_a.is_pressed():
-            rgb.fill((int(255), int(255), int(255)))
-            rgb.write()
-            time.sleep_ms(1)
-        elif touchpad_p.is_pressed():
-            rgb.fill( (0, 0, 0) )
-            rgb.write()
-            time.sleep_ms(1)
 
 def clock():
     global UDP, M, list, H, xuanquruanjian2, A, WENBEN, set2, SET, C, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo

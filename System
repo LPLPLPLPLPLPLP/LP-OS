@@ -208,6 +208,7 @@ def Deskop():
     my_1()
 
 def on_button_b_pressed(_):
+    global shibiejieguo, kaishicaidanxuanquruanjian, xuenquruanjian, jibu, USER, set3, word, EMM, C, SET, set2, WENBEN, A, xuanquruanjian2, H, ver, M, list, my_list, w
     Deskop()
 
 button_b.event_pressed = on_button_b_pressed
@@ -339,6 +340,9 @@ def _E8_AE_BE_E7_BD_AE():
         oled.show()
         if touchpad_p.is_pressed():
             while not touchpad_n.is_pressed():
+                rgb.fill( (0, 0, 0) )
+                rgb.write()
+                time.sleep_ms(1)
                 oled.fill_rect(10, 10, 100, 50, 0)
                 oled.RoundRect(10, 10, 100, 50, 10, 1)
                 oled.DispChar(str('A/连接 断开'), 15, 11, 1)

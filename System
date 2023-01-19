@@ -179,7 +179,7 @@ import time
 def CTRL():
     global my_list, w, list, ver, M, xuanquruanjian2, H, WENBEN, A, set2, SET, C, EMM, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
     list = 0
-    ver = '3.0'
+    ver = '3.1'
     xuanquruanjian2 = 0
     WENBEN = 15
     set2 = 0
@@ -335,39 +335,21 @@ def _E8_AE_BE_E7_BD_AE():
     while not button_b.is_pressed():
         oled.fill_rect(10, 10, 100, 50, 0)
         oled.RoundRect(10, 10, 100, 50, 10, 1)
-        oled.DispChar(str('P/wifi设置'), 15, 11, 1)
-        oled.DispChar(str('Y/更新'), 15, 26, 1)
-        oled.show()
-        if touchpad_p.is_pressed():
-            while not touchpad_n.is_pressed():
-                rgb.fill( (0, 0, 0) )
+        _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/version', headers={})
+        oled.DispChar(str(str('最新版本:') + str(_response.text)), 15, 11, 1)
+        oled.DispChar(str('当前版本:3.0'), 15, 26, 1)
+        if ver == _response.text[ : 3]:
+            oled.DispChar(str('你已是最新版本'), 15, 41, 1)
+            oled.show()
+        elif ver != _response.text[ : 3]:
+            oled.DispChar(str('按A键开始更新'), 15, 41, 1)
+            oled.show()
+            if button_a.is_pressed():
+                rgb.fill((int(255), int(0), int(0)))
                 rgb.write()
                 time.sleep_ms(1)
-                oled.fill_rect(10, 10, 100, 50, 0)
-                oled.RoundRect(10, 10, 100, 50, 10, 1)
-                oled.DispChar(str('A/连接 断开'), 15, 11, 1)
-                if my_wifi.sta.isconnected():
-                    oled.DispChar(str('已连接'), 15, 26, 1)
-                else:
-                    oled.DispChar(str('已断开'), 15, 26, 1)
-                oled.show()
-                if button_a.is_pressed():
-                    if my_wifi.sta.isconnected():
-                        init_text_file('1.txt')
-                        my_wifi.disconnectWiFi()
-                        rgb.fill((int(51), int(255), int(51)))
-                        rgb.write()
-                        time.sleep_ms(1)
-                        time.sleep(1)
-                    else:
-                        wifi1()
-                        write_data_to_file('1.txt', 'OK', '\r\n')
-                        rgb.fill((int(51), int(255), int(51)))
-                        rgb.write()
-                        time.sleep_ms(1)
-                        time.sleep(1)
-        elif touchpad_y.is_pressed():
-            UPD()
+                update()
+        oled.show()
 
 def _E5_BC_80_E5_A7_8B():
     global my_list, w, list, ver, M, xuanquruanjian2, H, WENBEN, A, set2, SET, C, EMM, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
@@ -382,26 +364,6 @@ def _E5_BC_80_E5_A7_8B():
         oled.show()
         if button_a.is_pressed():
             machine.reset()
-
-def UPD():
-    global my_list, w, list, ver, M, xuanquruanjian2, H, WENBEN, A, set2, SET, C, EMM, word, set3, USER, jibu, xuenquruanjian, kaishicaidanxuanquruanjian, shibiejieguo
-    oled.fill_rect(10, 10, 100, 50, 0)
-    oled.RoundRect(10, 10, 100, 50, 10, 1)
-    _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/version', headers={})
-    oled.DispChar(str(str('最新版本:') + str(_response.text)), 15, 11, 1)
-    oled.DispChar(str('当前版本:3.0'), 15, 26, 1)
-    if ver == _response.text[ : 3]:
-        oled.DispChar(str('你已是最新版本'), 15, 41, 1)
-        oled.show()
-    elif ver != _response.text[ : 3]:
-        oled.DispChar(str('按A键开始更新'), 15, 41, 1)
-        oled.show()
-        if button_a.is_pressed():
-            rgb.fill((int(255), int(0), int(0)))
-            rgb.write()
-            time.sleep_ms(1)
-            update()
-    oled.show()
 
 import music
 
@@ -472,8 +434,6 @@ def _E5_A4_A9_E6_B0_94():
         oled.DispChar(str(str(w1["results"][0]["location"]["name"]) + str(str(w1["results"][0]["now"]["text"]) + str(w1["results"][0]["now"]["temperature"]))), 15, 11, 1)
         oled.show()
 
-my_wifi = wifi()
-
 def get_seni_weather(_url, _location):
     _url = _url + "&location=" + _location.replace(" ", "%20")
     response = urequests.get(_url)
@@ -481,8 +441,5 @@ def get_seni_weather(_url, _location):
     response.close()
     return json
 w = get_list_from_file('1.txt', '\r\n')
-if len(w) < 0:
-    wifi1()
-    CTRL()
-else:
-    CTRL()
+wifi1()
+CTRL()

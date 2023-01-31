@@ -1,0 +1,867 @@
+﻿#mPythonType:0
+
+#mPythonType:0
+
+bds = None
+
+
+
+ks = None
+
+
+
+my_10 = None
+
+
+
+from mpython import *
+
+
+
+import time
+
+
+
+import network
+
+
+
+my_wifi = wifi()
+
+
+
+import json
+
+
+
+import urequests
+
+
+
+from mpython_ble.application import BLEUART
+
+
+
+_ble_uart = None
+
+def _ble_uart_irq():pass
+
+
+
+import ntptime
+
+
+
+def write_data_to_file(_path, _data, _sep):
+
+    f = open(_path, 'a')
+
+    f.write(_data + _sep)
+
+    f.close()
+
+
+
+def get_list_from_file(_path, _sep):
+
+    f = open(_path, 'r')
+
+    result = f.read().split(_sep)
+
+    f.close()
+
+    return result
+
+
+
+import GxxkSystem.main
+
+
+
+# 此程序使用了GxxkSystemBlockAPI（缩写GSBlockAPI）或此模块（插件）的修改版
+
+
+
+def init_text_file(_path):
+
+    f = open(_path, 'w')
+
+    f.close()
+
+
+
+import machine
+
+
+
+import music
+
+
+
+def _E5_BC_80_E6_9C_BA():
+
+    global i, my_10, j, jd, bds, jd2, ks, xzb, yzb, sjs, my_3_c, my_2_b, my_1_a
+
+    for i in range(30, 2, -1):
+
+        oled.fill(0)
+
+        oled.circle(68, 31, i, 1)
+
+        oled.show()
+
+    oled.DispChar(str('RONG'), 56, 24, 1)
+
+    time.sleep(1)
+
+    oled.show()
+
+    time.sleep(0.7)
+
+    for j in range(56, 29, -1):
+
+        oled.fill(0)
+
+        oled.DispChar(str('RONG'), j, 24, 1)
+
+        oled.show()
+
+    oled.fill(0)
+
+    oled.DispChar(str('RONG  OS'), 30, 24, 1)
+
+    oled.show()
+
+
+
+import framebuf
+
+
+
+import font.digiface_21
+
+
+
+import font.digiface_11
+
+
+
+# 桌面
+
+def _E6_98_BE_E7_A4_BA():
+
+    global i, my_10, j, jd, bds, jd2, ks, xzb, yzb, sjs, my_3_c, my_2_b, my_1_a
+
+    oled.fill(0)
+
+    if bds:
+
+        if button_a.is_pressed():
+
+            while not button_b.is_pressed():
+
+                start()
+
+            rgb.fill( (0, 0, 0) )
+
+            rgb.write()
+
+            time.sleep_ms(1)
+
+            oled.fill(0)
+
+            oled.invert(0)
+
+            _E7_AA_97_E5_8F_A3_E5_BC_B9_E5_87_BA()
+
+        oled.DispChar(str('开始                           关机'), 0, 0, 1)
+
+        oled.hline(0, 13, 200, 1)
+
+        display_font(font.digiface_21, str((str(time.localtime()[3]))) + str(str(':') + str(str((str(time.localtime()[4]))) + str(str(':') + str((str(time.localtime()[5])))))), 2, 20, False, 2)
+
+        display_font(font.digiface_11, (str(time.time())), 35, 0, False, 2)
+
+        my_clock.settime()
+
+        my_clock.drawClock()
+
+        oled.DispChar(str(str((str(time.localtime()[0]))) + str(str('年') + str(str((str(time.localtime()[1]))) + str(str('月') + str(str((str(time.localtime()[2]))) + str('日')))))), 0, 48, 1)
+
+        oled.show()
+
+
+
+xzb = None
+
+
+
+yzb = None
+
+
+
+def _E7_AA_97_E5_8F_A3_E5_BC_B9_E5_87_BA():
+
+    global i, my_10, j, jd, bds, jd2, ks, xzb, yzb, sjs, my_3_c, my_2_b, my_1_a
+
+    for j in range(1, 51, 4):
+
+        oled.fill(0)
+
+        oled.circle(5, 5, j, 1)
+
+        oled.show()
+
+    for j in range(49, 0, -4):
+
+        oled.fill(0)
+
+        oled.circle(5, 5, j, 1)
+
+        oled.show()
+
+    xzb = 64
+
+    yzb = 32
+
+    for j in range(1, 56, 3):
+
+        oled.fill(0)
+
+         oled.rect(5, 5, j, j, 1)
+
+        oled.show()
+
+    for j in range(55, 118, 3):
+
+        oled.fill(0)
+
+        oled.rect(5, 5, j, 55, 1)
+
+        oled.show()
+
+
+
+from machine import Timer
+
+
+
+_is_shaked = _is_thrown = False
+
+_last_x = _last_y = _last_z = _count_shaked = _count_thrown = 0
+
+def on_shaked():pass
+
+def on_thrown():pass
+
+
+
+tim11 = Timer(11)
+
+
+
+def timer11_tick(_):
+
+    global _is_shaked, _is_thrown, _last_x, _last_y, _last_z, _count_shaked, _count_thrown
+
+    if _is_shaked:
+
+        _count_shaked += 1
+
+        if _count_shaked == 5: _count_shaked = 0
+
+    if _is_thrown:
+
+        _count_thrown += 1
+
+        if _count_thrown == 10: _count_thrown = 0
+
+        if _count_thrown > 0: return
+
+    x=accelerometer.get_x(); y=accelerometer.get_y(); z=accelerometer.get_z()
+
+    _is_thrown = (x * x + y * y + z * z < 0.25)
+
+    if _is_thrown: on_thrown();return
+
+    if _last_x == 0 and _last_y == 0 and _last_z == 0:
+
+        _last_x = x; _last_y = y; _last_z = z; return
+
+    diff_x = x - _last_x; diff_y = y - _last_y; diff_z = z - _last_z
+
+    _last_x = x; _last_y = y; _last_z = z
+
+    if _count_shaked > 0: return
+
+    _is_shaked = (diff_x * diff_x + diff_y * diff_y + diff_z * diff_z > 1)
+
+    if _is_shaked: on_shaked()
+
+
+
+tim11.init(period=100, mode=Timer.PERIODIC, callback=timer11_tick)
+
+
+
+def _E4_B8_BB_E7_A8_8B_E5_BA_8F():
+
+    global i, my_10, j, jd, bds, jd2, ks, xzb, yzb, sjs, my_3_c, my_2_b, my_1_a
+
+    if touchpad_n.is_pressed() and touchpad_o.is_pressed() and touchpad_h.is_pressed() and touchpad_t.is_pressed() and touchpad_y.is_pressed() and touchpad_p.is_pressed():
+
+        oled.fill(0)
+
+        oled.show()
+
+        my_wifi.disconnectWiFi()
+
+        while not _is_shaked:
+
+            oled.fill(0)
+
+    if button_b.is_pressed():
+
+        write_data_to_file('xf.txt', 'yfiehfu9,wqu', '\r\n')
+
+        machine.reset()
+
+    _E6_98_BE_E7_A4_BA()
+
+
+
+def _E7_AA_97_E5_8F_A3():
+
+    global i, my_10, j, jd, bds, jd2, ks, xzb, yzb, sjs, my_3_c, my_2_b, my_1_a
+
+    oled.RoundRect(5, 5, 117, 55, 3, 1)
+
+    oled.hline(5, 15, 117, 1)
+
+    oled.DispChar(str('x'), 112, 2, 1, True)
+
+
+
+jd = None
+
+
+
+jd2 = None
+
+
+
+import random
+
+
+
+sjs = None
+
+
+
+my_3_c = None
+
+
+
+my_2_b = None
+
+
+
+my_1_a = None
+
+
+
+import font.dvsmb_21
+
+
+
+def start():
+
+    global i, my_10, j, jd, bds, jd2, ks, xzb, yzb, sjs, my_3_c, my_2_b, my_1_a
+
+    jd = 0
+
+    jd2 = 0
+
+    oled.fill(0)
+
+    _E7_AA_97_E5_8F_A3_E5_BC_B9_E5_87_BA()
+
+    while not button_b.is_pressed():
+
+        if accelerometer.get_y() > 0.3 and jd > 0:
+
+            # 进度
+
+            jd = jd + -1
+
+            for count in range(25):
+
+                jd2 = jd2 + -1
+
+                time.sleep(0.01)
+
+                oled.fill(0)
+
+                oled.blit(image_picture.load('face/Information/Left.pbm', 0), 16, 0)
+
+                myUI.ProgressBar(0, 0, 127, 8, jd2)
+
+                oled.show()
+
+        elif accelerometer.get_y() < -0.3 and jd < 4:
+
+            jd = jd + 1
+
+            for count in range(25):
+
+                jd2 = jd2 + 1
+
+                time.sleep(0.03)
+
+                oled.fill(0)
+
+                oled.blit(image_picture.load('face/Information/Right.pbm', 0), 16, 0)
+
+                myUI.ProgressBar(0, 0, 127, 8, jd2)
+
+                oled.show()
+
+        oled.fill(0)
+
+        myUI.ProgressBar(0, 0, 127, 8, jd2)
+
+        oled.DispChar(str(('           ' + str(ks[jd]))), 0, 32, 1)
+
+        oled.show()
+
+        # 应用
+
+        if jd == 1 and accelerometer.get_x() < -0.3:
+
+            oled.fill(0)
+
+            _E7_AA_97_E5_8F_A3_E5_BC_B9_E5_87_BA()
+
+            while not (touchpad_t.is_pressed() and touchpad_h.is_pressed()):
+
+                oled.fill(0)
+
+                _E7_AA_97_E5_8F_A3()
+
+                if touchpad_p.is_pressed():
+
+                    _ble_uart.write(bytes('SOS', 'utf-8'))
+
+                    oled.DispChar(str('           sos'), 0, 32, 1)
+
+                    oled.show()
+
+                    time.sleep(3)
+
+                elif touchpad_y.is_pressed():
+
+                    _ble_uart.write(bytes('GLW', 'utf-8'))
+
+                    oled.DispChar(str('        过来玩'), 0, 32, 1)
+
+                    oled.show()
+
+                    time.sleep(3)
+
+                elif touchpad_t.is_pressed():
+
+                    _ble_uart.write(bytes('HD', 'utf-8'))
+
+                    oled.DispChar(str('           好的'), 0, 32, 1)
+
+                    oled.show()
+
+                    time.sleep(3)
+
+                elif touchpad_h.is_pressed():
+
+                    _ble_uart.write(bytes('ZNW', 'utf-8'))
+
+                    oled.DispChar(str('           在哪玩'), 0, 32, 1)
+
+                    oled.show()
+
+                    time.sleep(3)
+
+                elif touchpad_o.is_pressed():
+
+                    _ble_uart.write(bytes('YSM', 'utf-8'))
+
+                    oled.DispChar(str('           有事吗'), 0, 32, 1)
+
+                    oled.show()
+
+                    time.sleep(3)
+
+                elif touchpad_n.is_pressed():
+
+                    _ble_uart.write(bytes('MMD', 'utf-8'))
+
+                    oled.DispChar(str('           么么哒'), 0, 32, 1)
+
+                    oled.show()
+
+                    time.sleep(3)
+
+                oled.show()
+
+        if jd == 0 and accelerometer.get_x() < -0.3:
+
+            oled.fill(0)
+
+            _E7_AA_97_E5_8F_A3_E5_BC_B9_E5_87_BA()
+
+            magnetic.calibrate()
+
+            while not (touchpad_t.is_pressed() and touchpad_h.is_pressed()):
+
+                oled.fill(0)
+
+                _E7_AA_97_E5_8F_A3()
+
+                oled.DispChar(str(('         ' + str(magnetic.get_heading()))), 0, 32, 1)
+
+                oled.show()
+
+        if jd == 2 and accelerometer.get_x() < -0.3:
+
+            sjs = random.randint(1, 5)
+
+            oled.fill(0)
+
+            _E7_AA_97_E5_8F_A3_E5_BC_B9_E5_87_BA()
+
+            my_3_c = 10
+
+            my_2_b = 10
+
+            my_1_a = 10
+
+            while not (touchpad_t.is_pressed() and touchpad_h.is_pressed()):
+
+                oled.fill(0)
+
+                if _is_shaked:
+
+                    sjs = random.randint(1, 11)
+
+                    if sjs > 6:
+
+                        sjs = sjs - 6
+
+                _E7_AA_97_E5_8F_A3()
+
+                if sjs == 6:
+
+                    oled.DispChar(str('事件'), 30, 30, 1)
+
+                else:
+
+                    display_font(font.dvsmb_21, (str(sjs)), 30, 30, False)
+
+                oled.show()
+
+        if jd == 3 and accelerometer.get_x() < -0.3:
+
+            _E7_AA_97_E5_8F_A3_E5_BC_B9_E5_87_BA()
+
+            oled.fill(0)
+
+            while not (touchpad_t.is_pressed() and touchpad_h.is_pressed()):
+
+                if my_wifi.sta.isconnected():
+
+                    oled.DispChar(str((''.join([str(x) for x in [w1["results"][0]["location"]["name"], '   ', w1["results"][0]["daily"][0]["wind_direction"], '风', w1["results"][0]["daily"][0]["wind_scale"], '级      白天', w1["results"][0]["daily"][0]["text_day"], '晚上', w1["results"][0]["daily"][0]["text_night"], '   最高温度', w1["results"][0]["daily"][0]["high"], '度 最低温度', w1["results"][0]["daily"][0]["low"], '度']]))), 0, 0, 1, True)
+
+                    oled.show()
+
+                else:
+
+                    oled.fill(0)
+
+                    oled.blit(image_picture.load('face/Information/No go.pbm', 0), 16, 0)
+
+                    oled.show()
+
+                    time.sleep(1)
+
+                    break
+
+        if jd == 4 and accelerometer.get_x() < -0.3:
+
+            _E7_AA_97_E5_8F_A3_E5_BC_B9_E5_87_BA()
+
+            oled.fill(0)
+
+            while not (touchpad_t.is_pressed() and touchpad_h.is_pressed()):
+
+                _E7_AA_97_E5_8F_A3()
+
+                oled.show()
+
+                oled.fill(0)
+
+                oled.show()
+
+                oled.invert(1)
+
+                rgb.fill((int(255), int(255), int(255)))
+
+                rgb.write()
+
+                time.sleep_ms(1)
+
+                time.sleep(0.07)
+
+            rgb.fill( (0, 0, 0) )
+
+            rgb.write()
+
+            time.sleep_ms(1)
+
+            oled.invert(0)
+
+
+
+image_picture = Image()
+
+
+
+def get_seni_weather(_url, _location):
+
+    _url = _url + "&location=" + _location.replace(" ", "%20")
+
+    response = urequests.get(_url)
+
+    json = response.json()
+
+    response.close()
+
+    return json
+
+
+
+myUI = UI(oled)
+
+
+
+_ble_uart = None
+
+def _ble_uart_irq():
+
+    global my_1_a, my_2_b, my_3_c, sjs, ks, yzb, xzb, bds, jd2, jd, j, my_10, i
+
+    _received_data = bytes(_ble_uart.read())
+
+    # 防止蓝牙数据显示是重合
+
+    my_10 = 0
+
+    while not button_b.is_pressed():
+
+        oled.fill(0)
+
+        oled.DispChar(str((str(_received_data))), 0, 0, 1)
+
+        oled.show()
+
+    # 防止蓝牙数据显示是重合
+
+    my_10 = 1
+
+
+
+def display_font(_font, _str, _x, _y, _wrap, _z=0):
+
+    _start = _x
+
+    for _c in _str:
+
+        _d = _font.get_ch(_c)
+
+        if _wrap and _x > 128 - _d[2]: _x = _start; _y += _d[1]
+
+        if _c == '1' and _z > 0: oled.fill_rect(_x, _y, _d[2], _d[1], 0)
+
+        oled.blit(framebuf.FrameBuffer(bytearray(_d[0]), _d[2], _d[1],
+
+        framebuf.MONO_HLSB), (_x+int(_d[2]/_z)) if _c=='1' and _z>0 else _x, _y)
+
+        _x += _d[2]
+
+
+
+my_clock = Clock(oled, 105, 40, 22)
+
+
+
+my_wifi = wifi()
+
+
+
+random.seed(time.ticks_cpu())
+
+_E5_BC_80_E6_9C_BA()
+
+# 1为解锁 0为锁定
+
+bds = 1
+
+ks = ['指南针', '发消息', '色子', '天气', '手电筒']
+
+my_10 = 1
+
+oled.DispChar(str('连接wifi请在5秒内按下a键'), 0, 0, 1)
+
+oled.show()
+
+time.sleep(5)
+
+if button_a.is_pressed():
+
+    oled.fill_rect(0, 0, 128, 16, 0)
+
+    oled.DispChar(str('正在连接wifi，请松手'), 0, 0, 1)
+
+    oled.show()
+
+    try_connect_wifi(my_wifi, "rong", "ycr", 1)
+
+time.sleep(1)
+
+if my_wifi.sta.isconnected():
+
+    oled.fill(0)
+
+    oled.blit(image_picture.load('face/Progress/Hourglass 0.pbm', 0), 16, 0)
+
+    oled.show()
+
+    w1 = get_seni_weather("https://api.seniverse.com/v3/weather/daily.json?key=SMhSshUxuTL0GLVLS", "ip")
+
+    _ble_uart = BLEUART(name=bytes('mpy_uart', 'utf-8'))
+
+    _ble_uart.irq(handler=_ble_uart_irq)
+
+    ntptime.settime(8, "ntp.aliyun.com")
+
+    oled.fill(0)
+
+    oled.blit(image_picture.load('face/Progress/Hourglass 1.pbm', 0), 16, 0)
+
+    oled.show()
+
+    time.sleep(0.5)
+
+else:
+
+    oled.fill(0)
+
+    oled.blit(image_picture.load('face/System/Alert.pbm', 0), 32, 0)
+
+    oled.show()
+
+    time.sleep(0.5)
+
+if button_a.is_pressed():
+
+    oled.fill(0)
+
+    oled.DispChar(str('10秒后锁定'), 0, 0, 1)
+
+    oled.show()
+
+    time.sleep(10)
+
+    write_data_to_file('bds.txt', 'ropeijpoircueu', '\r\n')
+
+if not str(get_list_from_file('bds.txt', '\r\n')) == "['']":
+
+    bds = bds + -1
+
+    if not (touchpad_h.is_pressed() and touchpad_t.is_pressed()):
+
+        oled.fill(0)
+
+        oled.DispChar(str('正在启动gxxksystem...'), 0, 0, 1)
+
+        oled.show()
+
+        time.sleep(1)
+
+        my_10 = 0
+
+        GxxkSystem.main.main()
+
+# 关于修复的程序旁边放一个转为文本
+
+if str(get_list_from_file('xf.txt', '\r\n')) == "['']":
+
+    oled.DispChar(str('修复中'), 0, 0, 1)
+
+    myUI.ProgressBar(30, 30, 70, 8, 0)
+
+    oled.show()
+
+    time.sleep(2)
+
+    oled.fill(0)
+
+    oled.DispChar(str((str(my_wifi.sta.ifconfig()))), 0, 0, 1)
+
+    myUI.ProgressBar(30, 30, 70, 8, 20)
+
+    oled.show()
+
+    time.sleep(2)
+
+    oled.DispChar(str((str(my_wifi.sta.ifconfig()[0]))), 0, 16, 1)
+
+    myUI.ProgressBar(30, 30, 70, 8, 50)
+
+    oled.show()
+
+    time.sleep(2)
+
+    myUI.ProgressBar(30, 30, 70, 8, 70)
+
+    oled.DispChar(str((str(_ble_uart and _ble_uart.is_connected()))), 0, 32, 1)
+
+    oled.show()
+
+    time.sleep(2)
+
+    myUI.ProgressBar(30, 30, 70, 8, 100)
+
+    oled.DispChar(str((str(get_list_from_file('bds.txt', '\r\n')))), 0, 48, 1)
+
+    oled.show()
+
+    init_text_file('bds.txt')
+
+    init_text_file('xf.txt')
+
+    write_data_to_file('xf.txt', 'iuuigyb', '\r\n')
+
+    time.sleep(1)
+
+    machine.reset()
+
+init_text_file('xf.txt')
+
+while True:
+
+    # 防止蓝牙数据显示是重合
+
+    if my_10:
+
+        _E4_B8_BB_E7_A8_8B_E5_BA_8F()
+
+    if time.localtime()[3] == 6:
+
+        music.play(music.PYTHON, wait=True, loop=False)

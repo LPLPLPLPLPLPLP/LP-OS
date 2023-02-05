@@ -28,8 +28,7 @@ def DIRECTION():
 angle = None
 
 import math
-
-def run():
+def main():
     global angle
     magnetic.calibrate()
     while True:

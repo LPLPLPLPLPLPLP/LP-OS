@@ -28,17 +28,13 @@ def DIRECTION():
 angle = None
 
 import math
-def main():
-    global angle
-    magnetic.calibrate()
-    while True:
-        angle = magnetic.get_heading()
-        oled.fill(0)
-        oled.DispChar(str('指南针'), 0, 4, 1)
-        oled.fill_circle(64, 32, 31, 1)
-        oled.fill_circle(64, 32, 29, 0)
-        oled.fill_circle((int((math.sin(angle / 180.0 * math.pi) * 28)) + 64), (int((math.cos(angle / 180.0 * math.pi) * 28)) + 32), 2, 1)
-        DIRECTION()
-        oled.show()
-        print(angle)
-main()
+magnetic.calibrate()
+while not button_b.is_pressed():
+    angle = magnetic.get_heading()
+    oled.fill(0)
+    oled.DispChar(str('指南针'), 0, 4, 1)
+    oled.fill_circle(64, 32, 31, 1)
+    oled.fill_circle(64, 32, 29, 0)
+    oled.fill_circle((int((math.sin(angle / 180.0 * math.pi) * 28)) + 64), (int((math.cos(angle / 180.0 * math.pi) * 28)) + 32), 2, 1)
+    DIRECTION()
+    oled.show()

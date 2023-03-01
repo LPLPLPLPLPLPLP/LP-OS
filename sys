@@ -7,7 +7,7 @@ def main():
         CPU = machine.freq() / 1000000
         CPUC = 5 * (esp32.raw_temperature()-32) / 12
         oled.fill(0)
-        oled.DispChar(str("CPU管理器 by LP_OVER"), 0, 0, 1)
+        oled.DispChar(str("CPU管理器"), 0, 0, 1)
         oled.DispChar(str(str('CPU频率:') + str(CPU) + str("MHz")), 0, 16, 1)
         oled.DispChar(str(str('CPU温度:') + str(CPUC)), 0, 32, 1)
         oled.show()

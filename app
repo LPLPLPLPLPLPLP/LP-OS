@@ -41,4 +41,4 @@ def main():
         DIRECTION()
         oled.show()
         print(angle)
-
+main()

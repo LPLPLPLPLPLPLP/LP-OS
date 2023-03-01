@@ -11,3 +11,4 @@ def main():
         oled.DispChar(str(str('CPU频率:') + str(CPU) + str("MHz")), 0, 16, 1)
         oled.DispChar(str(str('CPU温度:') + str(CPUC)), 0, 32, 1)
         oled.show()
+main()

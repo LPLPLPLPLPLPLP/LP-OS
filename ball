@@ -41,10 +41,10 @@ class Pong():
     def run(self):
 
         while self.running:
-            if touchpad_p.read() == 0 and touchpad_n.read() >= 100:
+            if touchpad_p.read() <= 100 and touchpad_n.read() >= 100:
                 self.bats_position -= 2
                 self.start = True
-            if touchpad_p.read() >= 100 and touchpad_n.read() == 0:
+            if touchpad_p.read() >= 100 and touchpad_n.read() <= 100:
                 self.bats_position += 2
                 self.start = True
 

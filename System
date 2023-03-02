@@ -23,7 +23,7 @@ p13 = MPythonPin(13, PinMode.IN)
 p15 = MPythonPin(15, PinMode.IN)
 
 def WLAN():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     acc()
     while not button_b.is_pressed():
         oled.fill_rect(10, 10, 100, 50, 0)
@@ -188,7 +188,7 @@ import time
 import random
 
 def MBR():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     oled.fill(0)
     oled.DispChar(str('LP_OVER MADE'), 0, 0, 1)
     oled.DispChar(str('联网中......'), 0, 16, 1)
@@ -244,7 +244,7 @@ def write_data_to_file(_path, _data, _sep):
     f.close()
 
 def Typer():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     Typer = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
     TYPER2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     TYPER3 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -310,7 +310,7 @@ import urequests
 import json
 
 def clock():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     init_text_file('app.py')
     S1 = 0
     _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/appname', headers={})
@@ -349,7 +349,7 @@ def clock():
             S1 = 0
 
 def on_button_b_pressed(_):
-    global angle, shibiejieguo, jibu, USER, M, set3, xuenquruanjian, URL, H, A, word, TP1, EMM, TP2, C, SET, set2, number, WENBEN, TP3, xuanquruanjian2, ver, have, TYPER4, list, TYPER3, TYPER2, my_list, S1, Typer, i
+    global OLV, angle, shibiejieguo, jibu, USER, M, set3, xuenquruanjian, URL, H, A, word, TP1, EMM, TP2, C, SET, set2, number, WENBEN, TP3, xuanquruanjian2, ver, have, TYPER4, list, TYPER3, TYPER2, my_list, S1, Typer, i
     desktop()
 
 button_b.event_pressed = on_button_b_pressed
@@ -357,7 +357,7 @@ button_b.event_pressed = on_button_b_pressed
 import audio
 
 def _E8_AF_AD_E9_9F_B3_E8_AF_86_E5_88_AB():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     acc()
     while not button_b.is_pressed():
         oled.fill_rect(10, 10, 100, 50, 0)
@@ -388,7 +388,7 @@ def _E8_AF_AD_E9_9F_B3_E8_AF_86_E5_88_AB():
 import machine
 
 def update():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     rgb[0] = (int(51), int(255), int(51))
     rgb.write()
     time.sleep_ms(1)
@@ -406,7 +406,7 @@ def update():
     machine.reset()
 
 def _E5_BC_80_E5_A7_8B():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     while not button_b.is_pressed():
         oled.fill_rect(30, 0, 55, 45, 0)
         oled.RoundRect(30, 0, 60, 45, 10, 1)
@@ -418,14 +418,21 @@ def _E5_BC_80_E5_A7_8B():
             machine.reset()
 
 def _E8_AE_BE_E7_BD_AE():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     acc()
+    _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/version', headers={})
+    OLV = (_response.text.split(';'))
     while not button_b.is_pressed():
-        oled.fill_rect(10, 10, 100, 50, 0)
-        oled.rect(10, 10, 100, 50, 1)
+        if OLV[0] == '3.5':
+            oled.DispChar(str('你已是最新版本'), 11, 11, 1)
+            oled.show()
+        else:
+            oled.DispChar(str('正在更新'), 11, 11, 1)
+            oled.show()
+            update()
 
 def acc():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     for i in range(0, 101, 8):
         oled.hline(11, 11, i, 1)
         oled.vline(11, 11, (int((i / 2))), 1)
@@ -439,7 +446,7 @@ def acc():
     oled.show()
 
 def desktop():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     my_list = get_list_from_file('wifi.py', '\r\n')
     while not list == 1:
         oled.fill(0)
@@ -490,7 +497,7 @@ def desktop():
         oled.show()
 
 def UPD():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     oled.fill_rect(10, 10, 100, 50, 0)
     oled.rect(10, 10, 100, 50, 1)
     _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/version', headers={})
@@ -510,7 +517,7 @@ def UPD():
     oled.show()
 
 def _E5_A4_A9_E6_B0_94():
-    global i, Typer, S1, my_list, TYPER2, TYPER3, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
+    global i, Typer, S1, my_list, TYPER2, TYPER3, OLV, list, TYPER4, have, ver, xuanquruanjian2, TP3, WENBEN, number, set2, SET, C, TP2, EMM, TP1, word, A, H, URL, xuenquruanjian, set3, M, USER, jibu, shibiejieguo, angle
     acc()
     while not button_b.is_pressed():
         w1 = get_seni_weather("https://api.seniverse.com/v3/weather/now.json?key=SMhSshUxuTL0GLVLS", "ip")

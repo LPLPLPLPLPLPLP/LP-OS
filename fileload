@@ -34,10 +34,6 @@ def app():
             NO_ = NO_ + 1
         elif touchpad_y.read() < 100:
             LIGHT = LIGHT + 1
-        if touchpad_h.read() < 100:
-            os.remove(get[NO_])
-            get = list([os.listdir() for i in os.listdir()])
-            get = get[0]
         if NO_ == len(get) - 4:
             NO_ = 0
         elif LIGHT == 4:
@@ -86,9 +82,7 @@ def add1():
             oled.DispChar(str('qwq'), 0, 16, 1)
             oled.show()
 import os
-get = []
-for i in os.listdir():
-    get.os.listdir()
+get = list([os.listdir() for i in os.listdir()])
 IN = 0
 get = get[0]
 app()

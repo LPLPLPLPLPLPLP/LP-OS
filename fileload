@@ -1,4 +1,4 @@
-# 此程序使用了GxxkSystemBlockAPI（缩写GSBlockAPI）或此模块（插件）的修改版
+from mpython import *
 
 IN = None
 
@@ -8,12 +8,10 @@ NO_ = None
 
 LIGHT = None
 
-from mpython import *
-
 import time
 
 def app():
-    global Y, IN, NO_, have, LIGHT, get
+    global Y, NO_, have, LIGHT, get, IN
     Y = 0
     NO_ = 0
     LIGHT = 0
@@ -61,7 +59,7 @@ def get_list_from_file(_path, _sep):
     return result
 
 def add1():
-    global Y, IN, NO_, have, LIGHT, get
+    global Y, NO_, have, LIGHT, get, IN
     have = get_list_from_file(get[NO_], '\r\n')
     NO_ = 0
     while not touchpad_n.read() < 100:
@@ -87,6 +85,9 @@ def add1():
             oled.DispChar(str('该文件没有东西捏'), 0, 0, 1)
             oled.DispChar(str('qwq'), 0, 16, 1)
             oled.show()
+oled.fill(0)
+oled.DispChar(str('扫描中'), 0, 0, 1)
+oled.show()
 import os
 get = list([os.listdir() for i in os.listdir()])
 IN = 0

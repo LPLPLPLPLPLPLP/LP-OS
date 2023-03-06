@@ -82,7 +82,7 @@ def add1():
             oled.DispChar(str('qwq'), 0, 16, 1)
             oled.show()
 import os
-get = list([i[0] for i in os.listdir])
+get = list([i[0] for i in os.listdir()])
 IN = 0
 get = get[0]
 app()

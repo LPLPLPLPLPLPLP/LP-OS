@@ -1,7 +1,50 @@
-INFO = None
+import _thread
+
+import gc
 
 from mpython import *
 
+import time
+
+list = None
+ver = None
+xuanquruanjian2 = None
+import framebuf
+import font.digiface_30
+WENBEN = None
+set2 = None
+SET = None
+C = None
+EMM = None
+word = None
+WIFIDBM = None
+A = None
+H = None
+set3 = None
+def display_font(_font, _str, _x, _y, _wrap, _z=0):
+    _start = _x
+    for _c in _str:
+        _d = _font.get_ch(_c)
+        if _wrap and _x > 128 - _d[2]: _x = _start; _y += _d[1]
+        if _c == '1' and _z > 0: oled.fill_rect(_x, _y, _d[2], _d[1], 0)
+        oled.blit(framebuf.FrameBuffer(bytearray(_d[0]), _d[2], _d[1],
+        framebuf.MONO_HLSB), (_x+int(_d[2]/_z)) if _c=='1' and _z>0 else _x, _y)
+        _x += _d[2]
+M = None
+USER = None
+jibu = None
+set_app = None
+shibiejieguo = None
+angle = None
+number = None
+TP1 = None
+TP2 = None
+TP3 = None
+TP4 = None
+RA = None
+RB = None
+RX = None
+RY = None
 def get_list_from_file(_path, _sep):
     f = open(_path, 'r')
     result = f.read().split(_sep)
@@ -10,123 +53,28 @@ def get_list_from_file(_path, _sep):
 
 wifi=wifi()
 
-# 此程序使用了GxxkSystemBlockAPI（缩写GSBlockAPI）或此模块（插件）的修改版
-
 import network
 
 import ntptime
 
-import neopixel
+import json
 
-my_rgb = neopixel.NeoPixel(Pin(Pin.P13), n=24, bpp=3, timing=1)
-
-list = None
-
-ver = None
-
-xuanquruanjian2 = None
-
-WENBEN = None
-
-set2 = None
-
-SET = None
-
-C = None
-
-EMM = None
-
-word = None
-
-A = None
-
-H = None
-
-set3 = None
-
-M = None
-
-USER = None
-
-jibu = None
-
-xuenquruanjian = None
-
-shibiejieguo = None
-
-angle = None
-
-number = None
-
-TP1 = None
-
-TP2 = None
-
-TP3 = None
-
-TP4 = None
-
-import gc
-
-import time
-
-import machine
+import urequests
 
 def Typer():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    Typer = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-    TYPER2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-    while not button_b.is_pressed():
+    while not button_a.is_pressed():
         oled.fill(0)
-        oled.fill_rect(10, 10, 100, 50, 0)
-        oled.rect(10, 10, 100, 50, 1)
-        if TP3 == 0:
-            oled.DispChar(str(Typer[number]), 11, 26, 1)
-            if number > len(Typer):
-                number = 0
-        if TP3 == 1:
-            oled.DispChar(str(TYPER2[number]), 11, 26, 1)
-            if number > len(TYPER2):
-                number = 0
-        if touchpad_t.read() < 100:
-            if TP4 == 0:
-                Typer = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-                TP4 = 1
-            elif TP4 == 1:
-                Typer = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-                TP4 = 0
-        if TP2 == False:
-            oled.DispChar(str((str(TP1) + ' ')), 11, 11, 1)
-            oled.show()
-            TP2 = True
-        if TP2 == True:
-            oled.DispChar(str((str(TP1) + '_')), 11, 11, 1)
-            oled.show()
-            TP2 = False
+        oled.DispChar("请插上数据线后用电脑端操作",0,0,1)
         oled.show()
-        if touchpad_p.is_pressed():
-            number = number + 1
-        elif touchpad_y.is_pressed():
-            number = number + -1
-        if touchpad_n.is_pressed():
-            SETPWD()
-        if touchpad_o.is_pressed():
-            TP3 = TP3 + 1
-        if TP3 == 2:
-            TP3 = 0
-        if button_a.is_pressed():
-            if TP3 == 0:
-                TP1 = str(TP1) + str(Typer[number])
-            if TP3 == 1:
-                TP1 = str(TP1) + str(TYPER2[number])
-        elif touchpad_h.is_pressed():
-            TP1 = TP1[ : int((len(TP1) - 2) + 1)]
-        time.sleep_ms(100)
-
+        computer_input = input("[LP OS/Typer]请输入内容，将自动上传:")
+        if button.a.is_pressed():
+            return computer_input
+        else:
+            pass
 IN = None
 
 def WLAN():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
     oled.fill(0)
     show_('[LP_OVER]文件管理器', 0, 0)
     show_('loading files...', 0, 16)
@@ -134,24 +82,12 @@ def WLAN():
     show_('CC-BY-NC-SA 4.0协议', 0, 48)
     oled.hline(0, 16, 140, 1)
     oled.show()
-    import os
     get = os.listdir()
     IN = 0
     time.sleep(1)
     app()
 
-def on_button_b_pressed(_):
-    global angle, shibiejieguo, jibu, USER, M, set3, H, URL, A, word, xuenquruanjian, EMM, C, SET, set2, WENBEN, xuanquruanjian2, ver, TP2, TP4, IN, number, TP3, my_list, OLV, TP1, temp, get, list, LIGHT, TYPER2, have, Typer, NO_, SETWLAN, i, S1, INFO, y, x, show
-    print(str('[LP OS/INFO]') + str('退出软件'))
-    desktop()
-
-button_b.event_pressed = on_button_b_pressed
-
 S1 = None
-
-import urequests
-
-import json
 
 def init_text_file(_path):
     f = open(_path, 'w')
@@ -163,7 +99,7 @@ def write_data_to_file(_path, _data, _sep):
     f.close()
 
 def store():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
     S1 = 0
     _response = urequests.get('https://lplplplplplplp.github.io/LP-OS/appname', headers={})
     have = (_response.text.split(';'))
@@ -203,72 +139,86 @@ def store():
         if S1 > len(have) - 2:
             S1 = 0
 
+def on_button_b_pressed(_):
+    global SET22, RY, RX, RB, RA, TP4, TP3, TP2, number, angle, shibiejieguo, jibu, USER, M, set3, H, A, word, EMM, C, SET, set2, WENBEN, xuanquruanjian2, WIFIDBM, URL, LIGHT, set_app, ver, IN, OLV, TP1, temp, get, j, TYPER3, val_audio, list, TYPER2, on_audio, have, RL, Typer, my_list, oled_light, SETWLAN, NO_, i, f, S1, file_name, y, x, show
+    print(str('[LP OS/INFO]') + str('退出软件'))
+    oled.poweron()
+    desktop()
+
+button_b.event_pressed = on_button_b_pressed
+
+RL = None
+
+SET22 = None
+
 y = None
 
-NO_ = None
-
-LIGHT = None
-
-def app():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    y = 0
-    NO_ = 0
-    LIGHT = 0
+def SERSET():
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    RL = len(str(get[NO_])) * 8
+    SET22 = 0
     while not button_b.is_pressed():
+        y = len(str(get[NO_])) * 8
+        if RL < y:
+            RL = RL + 8
+        elif RL == y:
+            pass
+        else:
+            RL = RL + -8
         oled.fill(0)
-        show_(get[NO_], 0, 0)
-        show_(get[(NO_ + 1)], 0, 16)
-        show_(get[(NO_ + 2)], 0, 32)
-        show_(get[(NO_ + 3)], 0, 48)
-        if LIGHT == 0:
-            oled.DispChar(str(get[NO_]), 0, 0, 2)
-        elif LIGHT == 1:
-            oled.DispChar(str(get[(NO_ + 1)]), 0, 16, 2)
-        elif LIGHT == 2:
-            oled.DispChar(str(get[(NO_ + 2)]), 0, 32, 2)
-        elif LIGHT == 3:
-            oled.DispChar(str(get[(NO_ + 3)]), 0, 48, 2)
+        oled.DispChar(str(str('开始X坐标') + str(RX)), 0, 0, 1)
+        oled.DispChar(str(str('开始Y坐标') + str(RY)), 0, 16, 1)
+        oled.DispChar(str(str('宽') + str(RA)), 0, 32, 1)
+        oled.DispChar(str(str('高') + str(RB)), 0, 48, 1)
+        oled.rect((SET22 * 16), 0, RL, 16, 1)
         oled.show()
-        if touchpad_p.read() < 100:
-            NO_ = NO_ + 1
-        elif touchpad_y.read() < 100:
-            LIGHT = LIGHT + 1
-        if touchpad_n.read() < 100:
-            while not (button_a.is_pressed() or touchpad_o.read() < 100):
-                oled.fill(0)
-                oled.DispChar(str('是否删除'), 0, 0, 1)
-                oled.DispChar(str('A/确定 O/取消'), 0, 16, 1)
-                oled.show()
-                if button_a.is_pressed():
-                    os.remove(get[NO_])
-                    get = list([os.listdir() for i in os.listdir()])
-                    get = get[0]
-                elif touchpad_o.read() < 100:
-                    app()
-        if touchpad_o.read() < 100:
-            os.chdir("..")
-            get = list([os.listdir(os.getcwd()) for i in os.listdir(os.getcwd())])
-            get = get[0]
-            app()
-        if touchpad_t.read() < 100:
-            with open(get[(NO_ + LIGHT)],"r",encoding="utf-8")as f:
-                exec(f.read())
-        if NO_ == len(get) - 4:
-            NO_ = 0
-        elif LIGHT == 4:
-            LIGHT = 0
+        if touchpad_p.is_pressed():
+            SET22 = SET22 + 1
         if button_a.is_pressed():
-            add1()
-        time.sleep_ms(100)
+            if SET22 == 0:
+                RX = RX + 1
+            elif SET22 == 1:
+                RY = RY + 1
+            elif SET22 == 2:
+                RA = RA + 1
+            elif SET22 == 3:
+                RB = RB + 1
+        if SET22 < 0:
+            SET22 = 3
+        elif SET22 > 3:
+            SET22 = 0
 
 def show_(show, x, y):
-    global INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    oled.DispChar(str(show), x, y, 1, True)
+    global RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    oled.DispChar(str(show), x, y, 1)
 
 import audio
+def notepad():
+    while not button_b.is_pressed():
+        oled.fill(0)
+        oled.DispChar("请在电脑端输入文本:",0,0,1)
+        oled.show()
+        note_text = input("输入内容:")
+        oled.fill(0)
+        oled.DispChar(str(note_text),0,0,1,True)
+        oled.DispChar(str("B/保存并退出"),0,48,1)
+        oled.show()
+        file = open("notepad_save.txt","w")
+        file.write(str(note_text))
+        file.write("\n")
+        oled.fill(0)
+        oled.DispChar("yes/继续 no/退出",0,0,1)
+        oled.show()
+        com = input("(yes/no):")
+        if com == "yes":
+            pass
+        elif com == "no":
+            desktop()
+        else:
+            pass
 
 def _E8_AF_AD_E9_9F_B3_E8_AF_86_E5_88_AB():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
     acc()
     while not button_b.is_pressed():
         oled.fill_rect(10, 10, 100, 50, 0)
@@ -296,10 +246,41 @@ def _E8_AF_AD_E9_9F_B3_E8_AF_86_E5_88_AB():
                 oled.DispChar(str('按P键返回'), 15, 41, 1)
                 oled.show()
 
+f = None
+
+i = None
+
+j = None
+
+def F1(RA, RB, RX, RY, all=False):
+    i = 0
+    if all == True:
+        RA = 128
+        RB = 64
+        RX = 0
+        RY = 0
+    else:
+        pass
+    file = open("screenshot.pbm","w")
+    file.write("P1" + "\n" + RA + " " + RB + "\n")
+    for i in range(int(RB)):
+        for i in range(int(RA)):
+            file.write(str(oled.pixel(RX,RY)))
+            file.write(str(" "))
+            RX = RX + 1
+            gc.collect()
+        print(str(i + gc.mem_free()))
+        file.write("\n")
+        RY = RY + 1
+        file.write("#Screenshot by LP_OVERROR")#强制水印
+    print('Done!')
+
 import random
 
+import machine
+
 def update():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
     rgb[0] = (int(51), int(255), int(51))
     rgb.write()
     time.sleep_ms(1)
@@ -316,26 +297,19 @@ def update():
     time.sleep_ms((random.randint(100, 1000)))
     machine.reset()
 
-def _E5_BC_80_E5_A7_8B():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    while not button_b.is_pressed():
-        oled.fill_rect(30, 0, 55, 45, 0)
-        oled.RoundRect(30, 0, 60, 45, 10, 1)
-        oled.DispChar(str('即将重启'), 35, 4, 1)
-        oled.DispChar(str('A/是 B/否'), 35, 20, 1)
-        oled.hline(0, 48, 150, 1)
+def on_touchpad_p_pressed(_):
+    global SET22, RY, RX, RB, RA, TP4, TP3, TP2, number, angle, shibiejieguo, jibu, USER, M, set3, H, A, word, EMM, C, SET, set2, WENBEN, xuanquruanjian2, WIFIDBM, URL, LIGHT, set_app, ver, IN, OLV, TP1, temp, get, j, TYPER3, val_audio, list, TYPER2, on_audio, have, RL, Typer, my_list, oled_light, SETWLAN, NO_, i, f, S1, file_name, y, x, show
+    if touchpad_y.is_pressed():
+        F1(RA, RB, RX, RY)
+        oled.fill_rect(0, 48, 128, 16, 0)
+        oled.DispChar(str('截图完成'), 0, 48, 1)
         oled.show()
-        if button_a.is_pressed():
-            machine.reset()
+    elif touchpad_n.is_pressed():
+        SERSET()
 
-def on_touchpad_n_pressed(_):
-    global angle, shibiejieguo, jibu, USER, M, set3, H, URL, A, word, xuenquruanjian, EMM, C, SET, set2, WENBEN, xuanquruanjian2, ver, TP2, TP4, IN, number, TP3, my_list, OLV, TP1, temp, get, list, LIGHT, TYPER2, have, Typer, NO_, SETWLAN, i, S1, INFO, y, x, show
-    app()
-
-touchpad_n.event_pressed = on_touchpad_n_pressed
+touchpad_p.event_pressed = on_touchpad_p_pressed
 
 def acc():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
     for i in range(0, 101, 8):
         oled.hline(10, 10, i, 1)
         oled.vline(10, 10, (int((i / 2))), 1)
@@ -348,8 +322,76 @@ def acc():
     oled.rect(10, 10, 100, 50, 1)
     oled.show()
 
-def _E8_AE_BE_E7_BD_AE():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
+NO_ = None
+
+def app():
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    NO_ = 0
+    RL = 0
+    free = os.statvfs('path')
+    use = free[3]
+    RL = len(str(get[NO_])) * 8
+    while not button_b.is_pressed():
+        y = len(str(get[NO_])) * 8
+        oled.fill(0)
+        oled.DispChar(str(get[NO_]), 16, 0, 1)
+        show_(get[(NO_ + 1)], 16, 16)
+        show_(get[(NO_ + 2)], 16, 32)
+        oled.DispChar(str(str('已用空间:') + str(str(str((8 - (use) / 100)) + str('MB')) + str('/8MB'))), 0, 48, 1)
+        if (os.stat(get[NO_+ 1]))[0] == 16384:
+            oled.Bitmap(0, 15, bytearray([0X00,0X00,0X00,0X00,0X00,0X00,0X3C,0X00,0X23,0XFC,0X20,0X04,0X27,0XC4,0X24,0X24, 0X3F,0XFC,0X20,0X04,0X20,0X04,0X20,0X04,0X20,0X04,0X3F,0XFC,0X00,0X00,0X00,0X00]), 16, 17, 1)
+        else:
+            oled.Bitmap(0, 15, bytearray([0X00,0X00,0X00,0X00,0X3F,0XC0,0X20,0X60,0X20,0X50,0X20,0X48,0X20,0X7C,0X23,0X84, 0X22,0X04,0X23,0X84,0X22,0X04,0X22,0X04,0X20,0X04,0X3F,0XFC,0X00,0X00,0X00,0X00]), 16, 17, 1)
+        if (os.stat(get[NO_+ 2]))[0] == 16384:
+            oled.Bitmap(0, 32, bytearray([0X00,0X00,0X00,0X00,0X00,0X00,0X3C,0X00,0X23,0XFC,0X20,0X04,0X27,0XC4,0X24,0X24, 0X3F,0XFC,0X20,0X04,0X20,0X04,0X20,0X04,0X20,0X04,0X3F,0XFC,0X00,0X00,0X00,0X00]), 16, 17, 1)
+        else:
+            oled.Bitmap(0, 32, bytearray([0X00,0X00,0X00,0X00,0X3F,0XC0,0X20,0X60,0X20,0X50,0X20,0X48,0X20,0X7C,0X23,0X84, 0X22,0X04,0X23,0X84,0X22,0X04,0X22,0X04,0X20,0X04,0X3F,0XFC,0X00,0X00,0X00,0X00]), 16, 17, 1)
+        if (os.stat(get[NO_]))[0] == 16384:
+            oled.Bitmap(0, 0, bytearray([0X00,0X00,0X00,0X00,0X00,0X00,0X3C,0X00,0X23,0XFC,0X20,0X04,0X27,0XC4,0X24,0X24, 0X3F,0XFC,0X20,0X04,0X20,0X04,0X20,0X04,0X20,0X04,0X3F,0XFC,0X00,0X00,0X00,0X00]), 16, 17, 1)
+        else:
+            oled.Bitmap(0, 0, bytearray([0X00,0X00,0X00,0X00,0X3F,0XC0,0X20,0X60,0X20,0X50,0X20,0X48,0X20,0X7C,0X23,0X84, 0X22,0X04,0X23,0X84,0X22,0X04,0X22,0X04,0X20,0X04,0X3F,0XFC,0X00,0X00,0X00,0X00]), 16, 17, 1)
+        oled.rect(15, 0, RL, 16, 1)
+        oled.show()
+        if touchpad_p.read() < 100:
+            NO_ = NO_ + 1
+        elif touchpad_y.read() < 100:
+            NO_ = NO_ + -1
+        elif touchpad_t.read() < 100:
+            with open(get[NO_],"r",encoding="utf-8")as f:
+                exec(f.read())
+        if touchpad_n.read() < 100:
+            while not (button_a.is_pressed() or touchpad_o.read() < 100):
+                oled.fill(0)
+                oled.DispChar(str('是否删除'), 0, 0, 1)
+                oled.DispChar(str('A/确定 O/取消'), 0, 16, 1)
+                oled.show()
+                if button_a.is_pressed():
+                    if (os.stat(get[NO_ ]))[0] == 16384:
+                        os.rmdir(get[NO_ ])
+                        os.listdir()
+                    else:
+                        os.remove(get[NO_])
+                        os.listdir()
+                elif touchpad_o.read() < 100:
+                    app()
+        if touchpad_o.read() < 100:
+            os.chdir("..")
+            os.listdir(os.getcwd())
+            app()
+        if NO_ == len(get) - 3:
+            NO_ = 0
+        if button_a.is_pressed():
+            add1()
+        if RL < y:
+            RL = RL + 8
+        elif RL == y:
+            pass
+        else:
+            RL = RL + -8
+        time.sleep_ms(1)
+
+def SETTING():
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
     acc()
     oled.fill_rect(10, 10, 100, 50, 0)
     oled.rect(10, 10, 100, 50, 1)
@@ -370,68 +412,155 @@ def _E8_AE_BE_E7_BD_AE():
                     rgb.write()
                     time.sleep_ms(1)
                     update()
-            oled.DispChar(str('P/设置新的WIFI'), 11, 41, 1)
+            oled.DispChar(str('P/设置WIFI'), 11, 41, 1)
             oled.show()
             if touchpad_p.read() < 100:
                 SETWIFI()
     except:
         SETWIFI()
-
-def desktop():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    while not list == 1:
-        print(str('[LP OS/INFO]') + str('正常运行，版本3.7b'))
+def net_mpy():
+    oled.fill(0)
+    oled.DispChar("请在电脑输入连接网址",0,0,1,True)
+    oled.show()
+    cinput = input("连接网址:")
+    while not button_b.is_pressed():
         oled.fill(0)
-        oled.DispChar(str('语音识别'), 3, 2, 1)
-        oled.DispChar(str('设置'), 61, 2, 1)
-        oled.DispChar(str('文件'), 3, 21, 1)
-        oled.DispChar(str('天气'), 41, 21, 1)
-        oled.DispChar(str('商店'), 76, 21, 1)
-        oled.rect(2, 2, 50, 15, 1)
-        oled.rect(60, 2, 30, 15, 1)
-        oled.rect(2, 20, 30, 15, 1)
-        oled.rect(40, 20, 30, 15, 1)
-        oled.rect(75, 20, 30, 15, 1)
-        oled.DispChar(str(' LP'), 0, 48, 1)
+        oled.DispChar(str("连接网址:" + cinput),0,0,1,True)
+        oled.DispChar(str("连接中"),0,48,1)
+        oled.show()
+        gc.collect()
+        _response = urequests.get(cinput, headers={})
+        file = open("/net/file/vram/code.py",'w')
+        gc.collect()
+        file.write(_response.text)
+        oled.fill(0)
+        oled.DispChar("完成",0,0,1)
+        oled.show()
+        file = open("/net/file/vram/code.py",'r')
+        f = file.read().split('\n')
+        if f[0] == "exepy":
+            exec("/net/file/vram/code.py")
+        else:
+            f = open('/net/file/code.py',"w")
+            f.write(file.read())
+            oled.fill(0)
+            oled.DispChar("完成,已保存到/net/file/code.py",0,0,1,True)
+            oled.show()
+            time.sleep(2)
+            desktop()
+def desktop():
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    while not list == 1:
+        oled.fill(0)
+        oled.Bitmap(0, 2, bytearray([0XFF,0XFF,0XF0,0X80,0X00,0X10,0X87,0X00,0X10,0X87,0X00,0X10,0X97,0X40,0X10,0X97, 0X40,0X10,0X9F,0XC0,0X10,0X82,0X00,0X10,0X82,0X00,0X10,0X8F,0X80,0X10,0X80,0X01, 0X10,0X90,0X00,0X10,0X90,0X0F,0XD0,0X91,0X00,0X90,0X90,0X85,0X10,0X9F,0XC2,0X10, 0X80,0X85,0X10,0X81,0X08,0XD0,0X80,0X00,0X10,0XFF,0XFF,0XF0]), 20, 20, 1)
+        oled.Bitmap(25, 2, bytearray([0XFF,0XFF,0XF0,0X80,0X00,0X10,0X80,0X00,0X10,0X80,0X20,0X10,0X80,0X20,0X10,0X86, 0X23,0X10,0X87,0X77,0X10,0X83,0XFE,0X10,0X81,0X8C,0X10,0X83,0X06,0X10,0X9F,0X07, 0XD0,0X83,0X06,0X10,0X81,0X8C,0X10,0X83,0XFE,0X10,0X87,0X77,0X10,0X86,0X23,0X10, 0X80,0X20,0X10,0X80,0X20,0X10,0X80,0X00,0X10,0XFF,0XFF,0XF0]), 20, 20, 1)
+        oled.Bitmap(50, 2, bytearray([0XFF,0XFF,0XF0,0X80,0X00,0X10,0X80,0X00,0X10,0X9F,0X00,0X10,0X90,0X80,0X10,0X90, 0X7F,0X90,0X90,0X00,0X90,0X90,0X00,0X90,0X90,0X00,0X90,0X90,0X00,0X90,0X9F,0XFF, 0X90,0X90,0X00,0X90,0X91,0XF8,0X90,0X92,0X04,0X90,0X92,0XF4,0X90,0X92,0X04,0X90, 0X9F,0XFF,0X90,0X80,0X00,0X10,0X80,0X00,0X10,0XFF,0XFF,0XF0]), 20, 20, 1)
+        oled.Bitmap(75, 2, bytearray([0XFF,0XFF,0XF0,0X80,0X00,0X10,0X80,0X00,0X10,0X80,0X00,0X10,0X80,0X00,0X10,0X80, 0X00,0X10,0X83,0X80,0X10,0X86,0X60,0X10,0X84,0X3C,0X10,0X84,0X36,0X10,0X8C,0X02, 0X10,0X98,0X91,0X10,0X90,0X00,0X90,0X90,0X90,0X90,0X90,0X61,0X90,0X9F,0XFF,0X10, 0X80,0X00,0X10,0X80,0X00,0X10,0X80,0X00,0X10,0XFF,0XFF,0XF0]), 20, 20, 1)
+        oled.Bitmap(0, 22, bytearray([0XFF,0XFF,0XF0,0X80,0X00,0X10,0X80,0X00,0X10,0X80,0XF0,0X10,0X81,0X08,0X10,0X81, 0X08,0X10,0X81,0X08,0X10,0X8F,0XFF,0X10,0X88,0X01,0X10,0X8A,0X3D,0X10,0X8A,0X25, 0X10,0X8A,0X3D,0X10,0X8B,0XA1,0X10,0X88,0X01,0X10,0X84,0X02,0X10,0X83,0XFC,0X10, 0X80,0X00,0X10,0X80,0X00,0X10,0X80,0X00,0X10,0XFF,0XFF,0XF0]), 20, 20, 1)
+        oled.Bitmap(25, 22, bytearray([0X00,0X00,0X00,0X7F,0XFF,0XE0,0X40,0X00,0X20,0X40,0X00,0X20,0X40,0X70,0X20,0X40, 0X30,0X20,0X40,0X50,0X20,0X40,0X80,0X20,0X41,0X0C,0X20,0X42,0X0C,0X20,0X40,0X6C, 0X20,0X40,0X6C,0X20,0X43,0X6C,0X20,0X43,0X6C,0X20,0X5B,0X6C,0X20,0X5B,0X6C,0X20, 0X40,0X00,0X20,0X40,0X00,0X20,0X7F,0XFF,0XE0,0X00,0X00,0X00]), 20, 20, 1)
+        oled.Bitmap(50, 22, bytearray([0X00,0X00,0X00,0X7F,0XFF,0XE0,0X40,0X00,0X20,0X40,0X00,0X20,0X4E,0XAE,0X20,0X44, 0X44,0X20,0X44,0XA4,0X20,0X40,0X00,0X20,0X40,0X00,0X20,0X4E,0X4C,0X20,0X4A,0XAA, 0X20,0X4E,0XEA,0X20,0X48,0XAC,0X20,0X40,0X00,0X20,0X40,0X00,0X20,0X40,0X00,0X20, 0X40,0X00,0X20,0X40,0X00,0X20,0X7F,0XFF,0XE0,0X00,0X00,0X00]), 20, 20, 1)
+        oled.DispChar(str(str(' LP') + str(str('     ') + str(str(time.localtime()[3]) + str(str(':') + str(time.localtime()[4]))))), 0, 48, 1)
         oled.hline(0, 48, 150, 1)
         oled.vline(20, 48, 30, 1)
+        gc.collect()
         if touchpad_h.read() < 100 or touchpad_t.read() < 100:
-            _E5_BC_80_E5_A7_8B()
-        if xuenquruanjian < 0:
-            xuenquruanjian = 4
-        elif xuenquruanjian > 4:
-            xuenquruanjian = 0
+            while not button_b.is_pressed():
+                oled.fill_rect(0, 0, 55, 64, 0)
+                oled.rect(0, 0, 55, 64, 1)
+                oled.DispChar(str('重启/P'), 2, 4, 1)
+                oled.DispChar(str('睡眠/A'), 2, 20, 1)
+                oled.hline(0, 48, 150, 1)
+                oled.show()
+                if touchpad_p.read() < 100:
+                    machine.reset()
+                elif button_a.is_pressed():
+                    machine.lightsleep()
+                    oled.poweroff()
+        if button_a.is_pressed() or button_b.is_pressed() or touchpad_p.is_pressed() or touchpad_y.is_pressed() or touchpad_t.is_pressed() or touchpad_h.is_pressed() or touchpad_o.is_pressed() or touchpad_n.is_pressed():
+            the_thd_time = 0
+        if set_app < 0:
+            set_app = 0
+        elif set_app > 6:
+            set_app = 6
         if accelerometer.get_y() > 0.3:
-            xuenquruanjian = xuenquruanjian + -1
+            set_app = set_app + -1
         elif accelerometer.get_y() < -0.3:
-            xuenquruanjian = xuenquruanjian + 1
+            set_app = set_app + 1
         if button_a.is_pressed():
-            print(str('[LP OS/INFO]') + str(str('运行软件,列表值:') + str(xuenquruanjian)))
-            if xuenquruanjian == 0:
+            print(str('[LP OS/INFO]') + str(str('运行软件,列表值:') + str(set_app)))
+            if set_app == 0:
                 _E8_AF_AD_E9_9F_B3_E8_AF_86_E5_88_AB()
-            elif xuenquruanjian == 1:
-                _E8_AE_BE_E7_BD_AE()
-            elif xuenquruanjian == 2:
+            elif set_app == 1:
+                SETTING()
+            elif set_app == 2:
                 WLAN()
-            elif xuenquruanjian == 3:
+            elif set_app == 3:
                 _E5_A4_A9_E6_B0_94()
-            elif xuenquruanjian == 4:
+            elif set_app == 4:
                 store()
-        if xuenquruanjian == 0:
-            oled.fill_rect(2, 2, 50, 15, 1)
-        elif xuenquruanjian == 1:
-            oled.fill_rect(60, 2, 30, 15, 1)
-        elif xuenquruanjian == 2:
-            oled.fill_rect(2, 20, 30, 15, 1)
-        elif xuenquruanjian == 3:
-            oled.fill_rect(40, 20, 30, 15, 1)
-        elif xuenquruanjian == 4:
-            oled.fill_rect(75, 20, 30, 15, 1)
+            elif set_app == 5:
+                net_mpy()
+            elif set_app == 6:
+                notepad()
+        if set_app == 0:
+            oled.Bitmap(0, 2, bytearray([0X00,0X00,0X00,0X7F,0XFF,0XE0,0X78,0XFF,0XE0,0X78,0XFF,0XE0,0X68,0XBF,0XE0,0X68, 0XBF,0XE0,0X60,0X3F,0XE0,0X7D,0XFF,0XE0,0X7D,0XFF,0XE0,0X70,0X7F,0XE0,0X7F,0XFE, 0XE0,0X6F,0XFF,0XE0,0X6F,0XF0,0X20,0X6E,0XFF,0X60,0X6F,0X7A,0XE0,0X60,0X3D,0XE0, 0X7F,0X7A,0XE0,0X7E,0XF7,0X20,0X7F,0XFF,0XE0,0X00,0X00,0X00]), 20, 20, 1)
+        elif set_app == 1:
+            oled.Bitmap(25, 2, bytearray([0X00,0X00,0X00,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X7F,0XDF,0XE0,0X7F,0XDF,0XE0,0X79, 0XDC,0XE0,0X78,0X88,0XE0,0X7C,0X01,0XE0,0X7E,0X73,0XE0,0X7C,0XF9,0XE0,0X60,0XF8, 0X20,0X7C,0XF9,0XE0,0X7E,0X73,0XE0,0X7C,0X01,0XE0,0X78,0X88,0XE0,0X79,0XDC,0XE0, 0X7F,0XDF,0XE0,0X7F,0XDF,0XE0,0X7F,0XFF,0XE0,0X00,0X00,0X00]), 20, 20, 1)
+        elif set_app == 2:
+            oled.Bitmap(50, 2, bytearray([0X00,0X00,0X00,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X60,0XFF,0XE0,0X6F,0X7F,0XE0,0X6F, 0X80,0X60,0X6F,0XFF,0X60,0X6F,0XFF,0X60,0X6F,0XFF,0X60,0X6F,0XFF,0X60,0X60,0X00, 0X60,0X6F,0XFF,0X60,0X6E,0X07,0X60,0X6D,0XFB,0X60,0X6D,0X0B,0X60,0X6D,0XFB,0X60, 0X60,0X00,0X60,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X00,0X00,0X00]), 20, 20, 1)
+        elif set_app == 3:
+            oled.Bitmap(75, 2, bytearray([0X00,0X00,0X00,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X7F, 0XFF,0XE0,0X7C,0X7F,0XE0,0X79,0X9F,0XE0,0X7B,0XC3,0XE0,0X7B,0XC9,0XE0,0X73,0XFD, 0XE0,0X67,0X6E,0XE0,0X6F,0XFF,0X60,0X6F,0X6F,0X60,0X6F,0X9E,0X60,0X60,0X00,0XE0, 0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X00,0X00,0X00]), 20, 20, 1)
+        elif set_app == 4:
+            oled.Bitmap(0, 22, bytearray([0X00,0X00,0X00,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X7F,0X0F,0XE0,0X7E,0XF7,0XE0,0X7E, 0XF7,0XE0,0X7E,0XF7,0XE0,0X70,0X00,0XE0,0X77,0XFE,0XE0,0X75,0XC2,0XE0,0X75,0XDA, 0XE0,0X75,0XC2,0XE0,0X74,0X5E,0XE0,0X77,0XFE,0XE0,0X7B,0XFD,0XE0,0X7C,0X03,0XE0, 0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X7F,0XFF,0XE0,0X00,0X00,0X00]), 20, 20, 1)
+        elif set_app == 5:
+            oled.Bitmap(25, 22, bytearray([0XFF,0XFF,0XF0,0X80,0X00,0X10,0XBF,0XFF,0XD0,0XBF,0XFF,0XD0,0XBF,0X8F,0XD0,0XBF, 0XCF,0XD0,0XBF,0XAF,0XD0,0XBF,0X7F,0XD0,0XBE,0XF3,0XD0,0XBD,0XF3,0XD0,0XBF,0X93, 0XD0,0XBF,0X93,0XD0,0XBC,0X93,0XD0,0XBC,0X93,0XD0,0XA4,0X93,0XD0,0XA4,0X93,0XD0, 0XBF,0XFF,0XD0,0XBF,0XFF,0XD0,0X80,0X00,0X10,0XFF,0XFF,0XF0]), 20, 20, 1)
+        elif set_app == 6:
+            oled.Bitmap(50, 22, bytearray([0XFF,0XFF,0XF0,0X80,0X00,0X10,0XBF,0XFF,0XD0,0XBF,0XFF,0XD0,0XB1,0X51,0XD0,0XBB, 0XBB,0XD0,0XBB,0X5B,0XD0,0XBF,0XFF,0XD0,0XBF,0XFF,0XD0,0XB1,0XB3,0XD0,0XB5,0X55, 0XD0,0XB1,0X15,0XD0,0XB7,0X53,0XD0,0XBF,0XFF,0XD0,0XBF,0XFF,0XD0,0XBF,0XFF,0XD0, 0XBF,0XFF,0XD0,0XBF,0XFF,0XD0,0X80,0X00,0X10,0XFF,0XFF,0XF0]), 20, 20, 1)
+        if touchpad_p.read() < 100:
+            set_light()
+        if wifi.sta.isconnected():
+            oled.Bitmap(100, 49, bytearray([0X00,0X00,0X00,0X00,0X03,0XC0,0X0F,0XF0,0X3E,0X78,0X78,0X1C,0XE0,0X0E,0XC0,0X06, 0X03,0XC0,0X0F,0XF0,0X1E,0X78,0X18,0X18,0X00,0X00,0X01,0X80,0X01,0X80]), 15, 15, 1)
+        else:
+            oled.Bitmap(100, 49, bytearray([0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X30,0X00,0X30,0X01,0XB0, 0X01,0XB0,0X0D,0XA2,0X0D,0X94,0X6D,0X88,0X6D,0X94,0X00,0X22,0X00,0X00]), 15, 15, 1)
         oled.show()
 
+def _E5_A4_A9_E6_B0_94():
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    acc()
+    while not button_b.is_pressed():
+        w1 = get_seni_weather("https://api.seniverse.com/v3/weather/now.json?key=SMhSshUxuTL0GLVLS", "ip")
+        oled.fill_rect(10, 10, 100, 50, 0)
+        oled.rect(10, 10, 100, 50, 1)
+        oled.DispChar(str((str(w1["results"][0]["location"]["name"]))), 11, 11, 1)
+        oled.DispChar(str(str(str('温度:') + str(w1["results"][0]["now"]["temperature"])) + str(str('天气:') + str(w1["results"][0]["now"]["text"]))), 11, 26, 1)
+        oled.show()
+
+SETWLAN = None
+
+def SETWIFI():
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    SETWLAN = 0
+    wlan = network.WLAN()
+    wlan.active(True)
+    temp = [i[0].decode() for i in network.WLAN().scan()]
+    while not button_b.is_pressed():
+        oled.fill(0)
+        oled.DispChar(str(str('WiFiPY切换:') + str(temp[SETWLAN])), 0, 0, 1, True)
+        oled.DispChar(str('A键确定'), 0, 32, 1)
+        oled.show()
+        if touchpad_p.read() < 100:
+            SETWLAN = SETWLAN + 1
+        elif SETWLAN > len(temp) - 1:
+            SETWLAN = 0
+        elif touchpad_y.read() < 100:
+            SETWLAN = SETWLAN + -1
+        if button_a.is_pressed():
+            Typer()
+            S
+
 def files():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    have = get_list_from_file(get[(NO_ + LIGHT)], '\r\n')
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    have = get_list_from_file(get[NO_], '\r\n')
     NO_ = 0
     while not touchpad_n.read() < 100:
         try:
@@ -457,54 +586,24 @@ def files():
             oled.DispChar(str('qwq'), 0, 16, 1)
             oled.show()
 
-def _E5_A4_A9_E6_B0_94():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    acc()
-    while not button_b.is_pressed():
-        w1 = get_seni_weather("https://api.seniverse.com/v3/weather/now.json?key=SMhSshUxuTL0GLVLS", "ip")
-        oled.fill_rect(10, 10, 100, 50, 0)
-        oled.rect(10, 10, 100, 50, 1)
-        oled.DispChar(str((str(w1["results"][0]["location"]["name"]))), 11, 11, 1)
-        oled.DispChar(str(str(str('温度:') + str(w1["results"][0]["now"]["temperature"])) + str(str('天气:') + str(w1["results"][0]["now"]["text"]))), 11, 26, 1)
-        oled.show()
-
-SETWLAN = None
-
-def SETWIFI():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    SETWLAN = 0
-    wlan = network.WLAN()
-    wlan.active(True)
-    temp = [i[0].decode() for i in network.WLAN().scan()]
-    while not button_b.is_pressed():
-        oled.fill(0)
-        oled.DispChar(str(str('WiFiPY切换:') + str(temp[SETWLAN])), 0, 0, 1, True)
-        oled.DispChar(str('A键确定'), 0, 32, 1)
-        oled.show()
-        if touchpad_p.read() < 100:
-            SETWLAN = SETWLAN + 1
-        elif SETWLAN > len(temp) - 1:
-            SETWLAN = 0
-        elif touchpad_y.read() < 100:
-            SETWLAN = SETWLAN + -1
-        if button_a.is_pressed():
-            Typer()
 
 def add1():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
-    NO_ = 0
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
     while not (touchpad_p.read() < 100 or touchpad_y.read() < 100 or touchpad_n.read() < 100):
         oled.fill(0)
         oled.DispChar(str('请选择文件类型'), 0, 0, 1)
-        oled.DispChar(str('P/文件  Y/文件夹'), 0, 16, 1)
-        oled.DispChar(str('T/图片 N/退出'), 0, 32, 1)
+        oled.DispChar(str('P/正常打开 T/音频'), 0, 16, 1)
+        oled.DispChar(str('Y/图片 N/退出'), 0, 32, 1)
+        if touchpad_y.read() < 100:
+            audio(str(get[NO_]))
         if touchpad_p.read() < 100:
-            files()
+            print(str(get[NO_]))
+            if (os.stat(get[NO_])) == 32768:
+                files()
+            else:
+                get = os.listdir(str(get[NO_]))
+                app()
         elif touchpad_y.read() < 100:
-            get = [os.listdir(get[(NO_ + LIGHT)]) for i in os.listdir(get[(NO_ + LIGHT)])]
-            get = get[0]
-            app()
-        elif touchpad_t.read() < 100:
             while not touchpad_n.read() < 100:
                 oled.fill(0)
                 oled.blit(image_picture.load(get[(NO_ + LIGHT)], 0), 0, 0)
@@ -515,8 +614,67 @@ def add1():
             app()
         oled.show()
 
+oled_light = None
+
+def set_light():
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    oled_light = 200
+    while not button_b.is_pressed():
+        oled.contrast(oled_light)
+        oled.fill(0)
+        oled.DispChar(str(str('当前亮度') + str(oled_light)), 0, 48, 1)
+        oled.fill_rect(0, 38, (int(((100 - 0) / (255 - 0)) * (oled_light - 0) + 0)), 5, 1)
+        oled.hline(0, 40, 100, 1)
+        if oled_light < 100:
+            oled.Bitmap(48, 0, bytearray([0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X80,0X00,0X00,0X00,0X80,0X00,0X00,0X80,0X00,0X80, 0X00,0X43,0XE1,0X00,0X00,0X0F,0XF8,0X00,0X00,0X1F,0XFC,0X00,0X00,0X3F,0XFE,0X00, 0X00,0X3F,0XFE,0X00,0X00,0X7F,0XFF,0X00,0X00,0X7F,0XFF,0X00,0X03,0X7F,0XFF,0X60, 0X00,0X7F,0XFF,0X00,0X00,0X7F,0XFF,0X00,0X00,0X3F,0XFE,0X00,0X00,0X3F,0XFE,0X00, 0X00,0X1F,0XFC,0X00,0X00,0X0F,0XF8,0X00,0X00,0X43,0XE1,0X00,0X00,0X80,0X00,0X80, 0X00,0X00,0X80,0X00,0X00,0X00,0X80,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00]), 32, 32, 1)
+        elif oled_light < 200:
+            oled.Bitmap(48, 0, bytearray([0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X80,0X00, 0X00,0X00,0X80,0X00,0X02,0X00,0X80,0X20,0X01,0X00,0X80,0X40,0X00,0X80,0X00,0X80, 0X00,0X43,0XE1,0X00,0X00,0X0F,0XF8,0X00,0X00,0X1F,0XFC,0X00,0X00,0X3F,0XFE,0X00, 0X00,0X3F,0XFE,0X00,0X00,0X7F,0XFF,0X00,0X00,0X7F,0XFF,0X00,0X0F,0X7F,0XFF,0X78, 0X00,0X7F,0XFF,0X00,0X00,0X7F,0XFF,0X00,0X00,0X3F,0XFE,0X00,0X00,0X3F,0XFE,0X00, 0X00,0X1F,0XFC,0X00,0X00,0X0F,0XF8,0X00,0X00,0X43,0XE1,0X00,0X00,0X80,0X00,0X80, 0X01,0X00,0X80,0X40,0X02,0X00,0X80,0X20,0X00,0X00,0X80,0X00,0X00,0X00,0X80,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00]), 32, 32, 1)
+        elif oled_light < 260:
+            oled.Bitmap(48, 0, bytearray([0X00,0X00,0X00,0X00,0X00,0X00,0X80,0X00,0X00,0X00,0X80,0X00,0X08,0X00,0X80,0X08, 0X04,0X00,0X80,0X10,0X02,0X00,0X80,0X20,0X01,0X00,0X80,0X40,0X00,0X80,0X00,0X80, 0X00,0X43,0XE1,0X00,0X00,0X0F,0XF8,0X00,0X00,0X1F,0XFC,0X00,0X00,0X3F,0XFE,0X00, 0X00,0X3F,0XFE,0X00,0X00,0X7F,0XFF,0X00,0X00,0X7F,0XFF,0X00,0X3F,0X7F,0XFF,0X7E, 0X00,0X7F,0XFF,0X00,0X00,0X7F,0XFF,0X00,0X00,0X3F,0XFE,0X00,0X00,0X3F,0XFE,0X00, 0X00,0X1F,0XFC,0X00,0X00,0X0F,0XF8,0X00,0X00,0X43,0XE1,0X00,0X00,0X80,0X00,0X80, 0X01,0X00,0X80,0X40,0X02,0X00,0X80,0X20,0X04,0X00,0X80,0X10,0X08,0X00,0X80,0X08, 0X00,0X00,0X80,0X00,0X00,0X00,0X80,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00]), 32, 32, 1)
+        if touchpad_p.read() < 100:
+            oled_light = oled_light + 5
+        elif touchpad_n.read() < 100:
+            oled_light = oled_light + -5
+        if oled_light > 255:
+            oled_light = 255
+        elif oled_light < 0:
+            oled_light = 255
+        oled.show()
+
+on_audio = None
+
+val_audio = None
+
+def audio(file_name):
+    global show, x, y, RA, RB, RX, RY, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
+    import gc;gc.collect()
+    audio.player_init(i2c)
+    on_audio = True
+    val_audio = 50
+    while not button_b.is_pressed():
+        oled.fill(0)
+        oled.DispChar(str(str('音量:') + str(val_audio)), 0, 48, 1)
+        oled.show()
+        audio.set_volume(val_audio)
+        if button_a.is_pressed():
+            if on_audio == True:
+                audio.pause()
+                on_audio = False
+            else:
+                audio.resume()
+                on_audio = True
+            audio.play(file_name)
+        if touchpad_p.read() < 100:
+            val_audio = val_audio + 5
+        if touchpad_n.read() < 100:
+            val_audio = val_audio + -5
+        if val_audio > 100:
+            val_audio = 100
+        if val_audio < 0:
+            val_audio = 0
+
 def SETPWD():
-    global show, x, y, INFO, S1, i, SETWLAN, NO_, Typer, have, TYPER2, LIGHT, list, get, temp, TP1, OLV, my_list, TP3, number, IN, TP4, TP2, ver, xuanquruanjian2, WENBEN, set2, SET, C, EMM, xuenquruanjian, word, A, URL, H, set3, M, USER, jibu, shibiejieguo, angle
+    global show, x, y, RA, RB, RX, RY, file_name, S1, f, i, NO_, SETWLAN, oled_light, RL, my_list, Typer, have, on_audio, SET22, TYPER2, list, val_audio, TYPER3, j, get, temp, TP1, OLV, IN, ver, set_app, LIGHT, URL, WIFIDBM, xuanquruanjian2, WENBEN, set2, SET, C, EMM, word, A, H, set3, M, USER, jibu, shibiejieguo, angle, number, TP2, TP3, TP4
     init_text_file('wifi.py')
     write_data_to_file('wifi.py', temp[SETWLAN], '\r\n')
     write_data_to_file('wifi.py', TP1, '\r\n')
@@ -539,62 +697,104 @@ def get_seni_weather(_url, _location):
     json = response.json()
     response.close()
     return json
-
-image_picture = Image()
-INFO = 'INFO'
-oled.fill(0)
-oled.DispChar(str('LP_OVER MADE'), 0, 0, 1)
-oled.DispChar(str('联网中......'), 0, 16, 1)
-oled.show()
-print(str('[LP OS/INFO]') + str('联网中'))
-try:
+def sleep_oled():
+    while not button_b.is_pressed():
+        oled.fill(0)
+        display_font(font.digiface_30, str(str(time.localtime()[3]) + ":" + str(time.localtime()[4])), 22, 0, False, 2)
+        oled.DispChar(str("可用内存:" + str(round(gc.mem_free()/1024)) + str(' ') + str("频率") + str(round(machine.freq()/1000000))),0,30,1)
+        oled.DispChar("B键解锁",32,46,1)
+        oled.show()
+        if button_b.is_pressed():
+            desktop()
+    desktop()
+def thread_1():
+    global SET22, RY, RX, RB, RA, TP4, TP3, TP2, number, angle, shibiejieguo, jibu, USER, M, set3, H, A, word, EMM, C, SET, set2, WENBEN, xuanquruanjian2, WIFIDBM, URL, LIGHT, set_app, ver, IN, OLV, TP1, temp, get, j, TYPER3, val_audio, list, TYPER2, on_audio, have, RL, Typer, my_list, oled_light, SETWLAN, NO_, i, f, S1, file_name, y, x, show
     my_list = get_list_from_file('wifi.py', '\r\n')
     wifi.connectWiFi(my_list[0],my_list[1])
     ntptime.settime(8, "time.windows.com")
-    list = 0
-    ver = '3.7_22w10a'
-    xuanquruanjian2 = 0
-    WENBEN = 15
-    set2 = 0
-    SET = 'OFF'
-    C = False
-    EMM = False
-    word = 0
-    A = 0
-    H = 0
-    set3 = 0
-    M = 0
-    USER = 'LP'
-    jibu = 0
-    xuenquruanjian = 0
-    shibiejieguo = '空'
-    angle = 10
-    number = 0
-    TP1 = ''
-    TP2 = True
-    TP3 = 0
-    TP4 = 0
-    gc.enable()
-    oled.fill(0)
-    oled.DispChar(str('               LP OS'), 0, 0, 1)
-    oled.DispChar(str('             WELCOME'), 0, 16, 1)
-    oled.show()
-    print(str('[LP OS/INFO]') + str('配置完成，已启动'))
-    desktop()
-except:
-    INFO = 0
-    oled.fill(0)
-    oled.DispChar(str(':( 出现问题'), 0, 0, 1)
-    oled.DispChar(str('将在 3s 后重启'), 0, 16, 1)
-    oled.show()
-    print(str('[LP OS/ERROR]') + str('LP OS ERROR!'))
-    time.sleep(3)
-    machine.reset()
-#版权归LP_OVER所有
-#抄袭没浮木
-#rong 没浮木
-#ver：3.7
-#alpha：22w10a
-#增加了日志功能
-#你问为啥写这些
-#凑行数
+    w1 = get_seni_weather("https://api.seniverse.com/v3/weather/now.json?key=SMhSshUxuTL0GLVLS", "ip")
+    WLAN = network.WLAN(network.STA_IF)
+    print(str('[LP OS/INFO]') + str('联网中'))
+
+def debug_print(text=''):
+    print(str("[LP OS/INFO]") + str(text))
+    
+def thread_2():
+    global the_thd_time
+    while True:
+        if not button_a.is_pressed() or button_b.is_pressed() or touchpad_p.is_pressed() or touchpad_y.is_pressed() or touchpad_t.is_pressed() or touchpad_h.is_pressed() or touchpad_o.is_pressed() or touchpad_n.is_pressed():
+            the_thd_time = the_thd_time + 1
+        else:
+            the_thd_time = 0
+        if the_thd_time == 60:
+            sleep_oled()
+image_picture = Image()
+_thread.start_new_thread(thread_1, ())
+gc.enable()
+oled.fill(0)
+oled.DispChar(str('LP OS'), 0, 0, 1)
+oled.DispChar(str('配置中...'), 0, 16, 1)
+oled.show()
+print(str('[LP OS/INFO]') + str('配置完成，已启动'))
+time.sleep(1)
+oled.contrast(200)
+time.sleep_ms(250)
+oled.contrast(150)
+time.sleep_ms(250)
+oled.contrast(100)
+time.sleep_ms(250)
+oled.contrast(50)
+time.sleep_ms(250)
+oled.contrast(0)
+time.sleep(1)
+oled.fill(0)
+oled.Bitmap(0, 0, bytearray([0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X03,0X80,0X01,0X1C,0X06,0X45,0XDC,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X02,0X40,0X01,0X12,0X09,0X45,0X12,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X03,0X92,0X01,0X1C,0X09,0X29,0XDC,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X02,0X52,0X01,0X10,0X09,0X29,0X14,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X03,0X8E,0X01,0XD0,0X06,0X11,0XD2,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X02,0X00,0X01,0XE0,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X0C,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XFF,0XF0,0X00,0X07,0XFF,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XFF,0XF0,0X00,0X07,0XFF,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XFF,0XF0,0X00,0X07,0XFF,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X70,0X00,0X07,0X00,0XE0,0X1C,0X00,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X70,0X00,0X07,0X00,0XE0,0X1C,0X00,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X70,0X00,0X07,0X00,0XE0,0X1C,0X00,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X70,0X00,0X07,0X00,0XE0,0X1C,0X00,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XFF,0XF0,0X00,0X07,0X00,0XE0,0X1C,0X00,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XFF,0XF0,0X00,0X07,0X00,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XFF,0XF0,0X00,0X07,0X00,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X00,0X00,0X07,0X00,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X00,0X00,0X07,0X00,0XE0,0X00,0X0E,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X00,0X00,0X07,0X00,0XE0,0X00,0X0E,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X00,0X00,0X07,0X00,0XE0,0X00,0X0E,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X00,0X00,0X07,0X00,0XE0,0X00,0X0E,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X00,0X00,0X07,0X00,0XE0,0X00,0X0E,0X00,0X00,0X00, 0X00,0X00,0X01,0XC0,0X01,0XC0,0X00,0X00,0X07,0X00,0XE0,0X00,0X0E,0X00,0X00,0X00, 0X00,0X00,0X01,0XFF,0XE1,0XC0,0X00,0X00,0X07,0XFF,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X01,0XFF,0XE1,0XC0,0X00,0X00,0X07,0XFF,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X01,0XFF,0XE1,0XC0,0X00,0X00,0X07,0XFF,0XE0,0X1F,0XFE,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X08,0X20,0X00,0X00,0X41,0XC0,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X04,0X40,0X00,0X00,0XC2,0X20,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X04,0X43,0X8B,0X21,0X42,0X20,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X02,0X84,0X5C,0X02,0X42,0X20,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X02,0X87,0X88,0X03,0XE2,0X20,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X02,0X84,0X08,0X20,0X42,0X20,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X01,0X03,0X88,0X00,0X49,0XC0,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X20,0X00,0X02,0X00,0X00,0XF0,0X20,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X20,0X00,0X02,0X20,0X00,0X81,0X23,0X18,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X20,0XC3,0X0E,0X00,0X00,0X80,0X24,0XA0,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X21,0X24,0X92,0X67,0X70,0XF3,0X27,0X18,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X21,0X24,0X92,0X25,0X50,0X81,0X24,0X04,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X3C,0XC3,0XCF,0X35,0X70,0X81,0XB3,0X18,0X54,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X10,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X70,0X00,0X00,0X00,0X00,0X00,0X00,0X00, 0X80,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X00,0X01]), 128, 64, 1)
+oled.show()
+list = 0
+ver = '4.0 ABulid_5'
+xuanquruanjian2 = 0
+WENBEN = 15
+set2 = 0
+SET = 'OFF'
+C = False
+EMM = False
+word = 0
+WIFIDBM = 0
+A = 0
+H = 0
+set3 = 0
+M = 0
+USER = 'LP'
+jibu = 0
+set_app = 0
+shibiejieguo = '空'
+angle = 10
+number = 0
+TP1 = ''
+TP2 = True
+TP3 = 0
+TP4 = 0
+RA = 0
+RB = 0
+RX = 128
+RY = 64
+the_thd_time = 0
+oled.contrast(255)
+import os,machine,network
+time.sleep(2)
+sleep_oled()
+#LP OS水印~
+#请遵守CC-BY-NC-SA4.0协议
+#LP OS by LP_OVER
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
